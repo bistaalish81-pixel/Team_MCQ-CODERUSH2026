@@ -48,7 +48,9 @@ const ensureSchema = async () => {
       ADD COLUMN IF NOT EXISTS department VARCHAR(255),
       ADD COLUMN IF NOT EXISTS issue_type VARCHAR(255),
       ADD COLUMN IF NOT EXISTS summary TEXT,
-      ADD COLUMN IF NOT EXISTS confidence DOUBLE PRECISION;
+      ADD COLUMN IF NOT EXISTS confidence DOUBLE PRECISION,
+      ADD COLUMN IF NOT EXISTS latitude DOUBLE PRECISION,
+      ADD COLUMN IF NOT EXISTS longitude DOUBLE PRECISION;
   `);
 };
 
@@ -395,7 +397,7 @@ app.get("/api/complaints/:id", async (req, res) => {
 
 app.post("/api/complaints", async (req, res) => {
   try {
-    const { title, description, location, user_id } = req.body;
+    const { title, description, location, user_id, latitude, longitude, lat, lng } = req.body;
 
     if (!title || !String(title).trim()) {
       return res.status(400).json({
@@ -407,6 +409,22 @@ app.post("/api/complaints", async (req, res) => {
       return res.status(400).json({
         message: "description is required",
       });
+    }
+
+    let finalLat = null;
+    let finalLng = null;
+    if (latitude !== undefined && latitude !== null && !isNaN(Number(latitude))) finalLat = Number(latitude);
+    else if (lat !== undefined && lat !== null && !isNaN(Number(lat))) finalLat = Number(lat);
+
+    if (longitude !== undefined && longitude !== null && !isNaN(Number(longitude))) finalLng = Number(longitude);
+    else if (lng !== undefined && lng !== null && !isNaN(Number(lng))) finalLng = Number(lng);
+
+    if ((finalLat === null || finalLng === null) && location) {
+      const gpsMatch = String(location).match(/(-?\d+\.\d+)\s*,\s*(-?\d+\.\d+)/);
+      if (gpsMatch) {
+        finalLat = Number(gpsMatch[1]);
+        finalLng = Number(gpsMatch[2]);
+      }
     }
 
     // --- Step 1: Analyze with SARATHI AI ---
@@ -426,10 +444,12 @@ app.post("/api/complaints", async (req, res) => {
         issue_type,
         summary,
         confidence,
-        status
+        status,
+        latitude,
+        longitude
       )
       VALUES
-      ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+      ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)
       RETURNING *`,
       [
         user_id && isValidId(user_id) ? user_id : null,
@@ -443,6 +463,8 @@ app.post("/api/complaints", async (req, res) => {
         analysis.summary,
         analysis.confidence,
         "pending",
+        finalLat,
+        finalLng,
       ]
     );
 
@@ -485,6 +507,8 @@ app.patch("/api/complaints/:id", async (req, res) => {
       summary,
       confidence,
       status,
+      latitude,
+      longitude,
     } = req.body;
 
     if (status && !ALLOWED_STATUSES.includes(status)) {
@@ -518,8 +542,10 @@ app.patch("/api/complaints/:id", async (req, res) => {
          summary = COALESCE($8, summary),
          confidence = COALESCE($9, confidence),
          status = COALESCE($10, status),
+         latitude = COALESCE($11, latitude),
+         longitude = COALESCE($12, longitude),
          updated_at = CURRENT_TIMESTAMP
-       WHERE id = $11
+       WHERE id = $13
        RETURNING *`,
       [
         title,
@@ -532,6 +558,8 @@ app.patch("/api/complaints/:id", async (req, res) => {
         summary,
         confidence,
         status,
+        latitude !== undefined && !isNaN(Number(latitude)) ? Number(latitude) : null,
+        longitude !== undefined && !isNaN(Number(longitude)) ? Number(longitude) : null,
         id,
       ]
     );
@@ -631,6 +659,165 @@ app.post("/api/ai/analyze", async (req, res) => {
 
 const PORT = process.env.PORT || 5001;
 
+const seedComplaintsIfEmpty = async () => {
+  try {
+    // Backfill existing rows without coords
+    await pool.query(`
+      UPDATE complaints SET latitude = 27.7008, longitude = 85.3001 WHERE id = 5 AND latitude IS NULL;
+      UPDATE complaints SET latitude = 27.6710, longitude = 85.3214 WHERE id = 3 AND latitude IS NULL;
+      UPDATE complaints SET latitude = 27.7172, longitude = 85.3240 WHERE id = 2 AND latitude IS NULL;
+      UPDATE complaints SET latitude = 27.7172, longitude = 85.3240 WHERE latitude IS NULL AND LOWER(location) LIKE '%kathmandu%';
+      UPDATE complaints SET latitude = 27.6710, longitude = 85.3214 WHERE latitude IS NULL AND LOWER(location) LIKE '%lalitpur%';
+      UPDATE complaints SET latitude = 27.6710, longitude = 85.4298 WHERE latitude IS NULL AND LOWER(location) LIKE '%bhaktapur%';
+    `);
+
+    const countRes = await pool.query("SELECT COUNT(*) FROM complaints");
+    const count = Number(countRes.rows[0].count);
+
+    if (count < 8) {
+      const demoData = [
+        {
+          title: "Major road subsidence and massive pothole near Koteshwor",
+          description: "Dangerous open hole on main road causing accidents for motorcycles. Heavy traffic congestion.",
+          location: "Koteshwor, Kathmandu",
+          category: "Roads & Infrastructure",
+          priority: "critical",
+          department: "Department of Roads (DoR) - Kathmandu Division",
+          issue_type: "Dangerous road pothole",
+          summary: "Large pothole causing vehicle accidents near Koteshwor chowk",
+          confidence: 0.97,
+          status: "pending",
+          latitude: 27.6766,
+          longitude: 85.3486
+        },
+        {
+          title: "Uncollected waste dumping beside Bagmati Corridor",
+          description: "Over 5 tons of plastic and organic waste rotting by river corridor for 10 days.",
+          location: "Thapathali, Kathmandu",
+          category: "Waste Management",
+          priority: "high",
+          department: "Kathmandu Metropolitan City - Environment Management",
+          issue_type: "Illegal waste accumulation",
+          summary: "Rotting municipal waste dumping along Bagmati corridor",
+          confidence: 0.95,
+          status: "in_progress",
+          latitude: 27.6920,
+          longitude: 85.3180
+        },
+        {
+          title: "Street lights dead for 2 weeks in residential ward",
+          description: "Entire street dark at night, increasing security risks for students and women returning late.",
+          location: "Baneshwor, Kathmandu",
+          category: "Electricity",
+          priority: "medium",
+          department: "Nepal Electricity Authority (NEA) / KMC Ward 10",
+          issue_type: "Faulty streetlights",
+          summary: "Streetlights non-functional creating public safety hazard",
+          confidence: 0.93,
+          status: "pending",
+          latitude: 27.6915,
+          longitude: 85.3420
+        },
+        {
+          title: "Drinking water pipeline fractured and leaking into street",
+          description: "Clean drinking water being wasted while downstream houses have dry taps.",
+          location: "Mangalbazar, Lalitpur",
+          category: "Water Supply",
+          priority: "high",
+          department: "Kathmandu Upatyaka Khanepani Limited (KUKL) - Lalitpur Branch",
+          issue_type: "Pipeline rupture",
+          summary: "Clean water supply pipe burst leaking on street",
+          confidence: 0.96,
+          status: "pending",
+          latitude: 27.6728,
+          longitude: 85.3255
+        },
+        {
+          title: "Contaminated brownish tap water coming in households",
+          description: "Water has mud and sewage odor. Residents cannot drink or cook with it.",
+          location: "Jawalakhel, Lalitpur",
+          category: "Water Supply",
+          priority: "high",
+          department: "KUKL Lalitpur Branch",
+          issue_type: "Water contamination",
+          summary: "Muddy and foul smelling tap water in household supply",
+          confidence: 0.94,
+          status: "in_progress",
+          latitude: 27.6740,
+          longitude: 85.3120
+        },
+        {
+          title: "Severe road damage and broken pavement near Kamalbinayak",
+          description: "Road gravel eroded away after recent rainfall, impassable for public microbuses.",
+          location: "Kamalbinayak, Bhaktapur",
+          category: "Roads & Infrastructure",
+          priority: "medium",
+          department: "Bhaktapur Municipality Infrastructure Division",
+          issue_type: "Road surface erosion",
+          summary: "Eroded roadway causing transit blockage in Kamalbinayak",
+          confidence: 0.92,
+          status: "pending",
+          latitude: 27.6735,
+          longitude: 85.4380
+        },
+        {
+          title: "Blocked stormwater drain overflowing onto pedestrian footpath",
+          description: "Black foul water spilling over entire sidewalk near Durbar Square entry.",
+          location: "Suryabinayak, Bhaktapur",
+          category: "Roads & Infrastructure",
+          priority: "medium",
+          department: "Bhaktapur Municipality Sanitation Section",
+          issue_type: "Drainage blockage",
+          summary: "Stormwater drain backed up overflowing onto sidewalk",
+          confidence: 0.91,
+          status: "resolved",
+          latitude: 27.6620,
+          longitude: 85.4290
+        },
+        {
+          title: "Fallen tree branch hanging over high-voltage electrical wires",
+          description: "Sparks flying in strong wind near Lakeside road. Urgent hazard.",
+          location: "Lakeside, Pokhara",
+          category: "Electricity",
+          priority: "critical",
+          department: "NEA Pokhara Distribution Center",
+          issue_type: "Electrical hazard",
+          summary: "High voltage electrical wire sparked by fallen tree branch",
+          confidence: 0.98,
+          status: "pending",
+          latitude: 28.2096,
+          longitude: 83.9590
+        }
+      ];
+
+      for (const item of demoData) {
+        await pool.query(
+          `INSERT INTO complaints
+          (title, description, location, category, priority, department, issue_type, summary, confidence, status, latitude, longitude)
+          VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`,
+          [
+            item.title,
+            item.description,
+            item.location,
+            item.category,
+            item.priority,
+            item.department,
+            item.issue_type,
+            item.summary,
+            item.confidence,
+            item.status,
+            item.latitude,
+            item.longitude
+          ]
+        );
+      }
+      console.log("Seeded realistic Nepal demo complaints into PostgreSQL ✅");
+    }
+  } catch (err) {
+    console.error("Backfill/seed error:", err.message);
+  }
+};
+
 // Test database connection, ensure schema, then listen.
 (async () => {
   try {
@@ -639,6 +826,8 @@ const PORT = process.env.PORT || 5001;
 
     await ensureSchema();
     console.log("Database schema is up to date ✅");
+
+    await seedComplaintsIfEmpty();
   } catch (error) {
     console.error("PostgreSQL setup failed ❌");
     console.error(error.message);

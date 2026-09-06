@@ -4,9 +4,21 @@
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Sarathi | Civic Reporting Platform</title>
+    <title>Sarkar Sathi AI | Nepal Civic Platform & Smart Map</title>
 
-    <link rel="stylesheet" href="./sarthi 2nd version_files/style.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <!-- Leaflet MarkerCluster CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -17,35 +29,39 @@
 
     <div class="container nav">
 
-        <div class="logo" onclick="showPage(&#39;home&#39;)">
+        <div class="logo" onclick="showPage('home')">
             <div class="logo-mark">स</div>
 
             <div>
-                <h2>Sarathi</h2>
-                <span>Civic Reporting Platform</span>
+                <h2>Sarkar Sathi AI</h2>
+                <span>Civic Intelligence & Smart Map</span>
             </div>
         </div>
 
 
         <nav id="mainNav">
 
-            <button onclick="showPage(&#39;home&#39;)">
+            <button onclick="showPage('home')">
                 Home
             </button>
 
-            <button onclick="showPage(&#39;issues&#39;)">
+            <button onclick="showPage('issues')">
                 Issues
             </button>
 
-            <button onclick="showPage(&#39;report&#39;)">
+            <button onclick="showPage('report')">
                 Report
             </button>
 
-            <button onclick="showPage(&#39;map&#39;)">
-                Map
+            <button onclick="showPage('map')" class="nav-featured">
+                🗺️ Complaint Map
             </button>
 
-            <button onclick="showPage(&#39;contact&#39;)">
+            <button onclick="showPage('smartroute')" class="nav-smart">
+                🤖 SmartRoute AI
+            </button>
+
+            <button onclick="showPage('contact')">
                 Contact
             </button>
 
@@ -567,38 +583,54 @@
                     Select a category
                 </option>
 
-                <option value="Roads">
-                    🛣️ Roads
+                <option value="Roads & Infrastructure">
+                    🛣️ Roads & Infrastructure
                 </option>
 
-                <option value="Waste">
-                    🗑️ Waste
+                <option value="Waste Management">
+                    🗑️ Waste Management
                 </option>
 
-                <option value="Lighting">
-                    💡 Lighting
+                <option value="Water Supply">
+                    💧 Water Supply
                 </option>
 
-                <option value="Water">
-                    💧 Water
+                <option value="Electricity">
+                    💡 Electricity & Lighting
+                </option>
+
+                <option value="Public Safety">
+                    🚨 Public Safety & Sewage
+                </option>
+
+                <option value="Healthcare">
+                    🏥 Healthcare Services
+                </option>
+
+                <option value="Traffic & Transport">
+                    🚦 Traffic & Transport
+                </option>
+
+                <option value="Government Services">
+                    🏛️ Government Services
                 </option>
 
                 <option value="Other">
-                    📌 Other
+                    📌 Other Civic Issue
                 </option>
 
             </select>
 
 
             <label>
-                Location
+                Location & Coordinates
             </label>
 
             <div class="location-row">
 
-                <input id="complaintLocation" required="" placeholder="Enter location">
+                <input id="complaintLocation" required="" placeholder="Pinpoint on map below or type address">
 
-                <button type="button" class="location-btn" onclick="getLocation(&#39;complaint&#39;)">
+                <button type="button" class="location-btn" onclick="useCurrentLocationForPicker()">
 
                     📍 GPS
 
@@ -606,16 +638,61 @@
 
             </div>
 
+            <!-- Interactive Map Picker for precise complaint pin -->
+            <div class="map-picker-card">
+                <div class="map-picker-meta">
+                    <span id="pickerStatus">🎯 Tap anywhere on map or drag marker to set exact location</span>
+                    <span id="pickerCoordsBadge" class="coords-badge">27.7172, 85.3240</span>
+                </div>
+                <div id="reportMapPicker" class="report-map-picker"></div>
+                <input type="hidden" id="complaintLat" value="27.7172">
+                <input type="hidden" id="complaintLng" value="85.3240">
+            </div>
+
+            <!-- Nearby Duplicate Warning Alert (Part 8) -->
+            <div id="nearbyDuplicateAlert" class="nearby-alert-banner hidden">
+                <div class="nearby-alert-badge">⚠️ NEARBY COMPLAINTS FOUND</div>
+                <p id="nearbyDuplicateText">Similar issues already reported within 1.5km of this location.</p>
+                <div id="nearbyDuplicateItems" class="nearby-items-list"></div>
+                <small class="nearby-hint">You can still submit your complaint, or support existing reports.</small>
+            </div>
+
 
             <label>
                 Description
             </label>
 
-            <textarea id="complaintDescription" required="" rows="6" placeholder="Explain what happened..."></textarea>
+            <textarea id="complaintDescription" required="" rows="4" placeholder="Explain what happened, urgency, safety impacts..." oninput="handleReportTextDebounce()"></textarea>
+
+
+            <!-- SmartRoute Live AI Preview (from screenshot: Complaint -> Category -> Priority -> Department) -->
+            <div id="reportSmartRoutePreview" class="smartroute-preview-widget">
+                <div class="preview-header">
+                    <span class="sparkle-tag">🤖 SmartRoute™ AI Detection</span>
+                    <span id="previewConfidenceTag" class="confidence-tag">Live Preview</span>
+                </div>
+                <div class="pipeline-row">
+                    <div class="pipeline-step">
+                        <small>Detected Category</small>
+                        <strong id="previewCategory">Awaiting input</strong>
+                    </div>
+                    <div class="pipeline-arrow">➔</div>
+                    <div class="pipeline-step">
+                        <small>Calculated Priority</small>
+                        <strong id="previewPriority" class="priority-pill-tag">MEDIUM</strong>
+                    </div>
+                    <div class="pipeline-arrow">➔</div>
+                    <div class="pipeline-step">
+                        <small>Routing Department</small>
+                        <strong id="previewDepartment">Municipal Authority</strong>
+                    </div>
+                </div>
+                <p id="previewReason" class="preview-reason-text">Type details above to see AI category classification and priority assessment.</p>
+            </div>
 
 
             <label>
-                Photo
+                Photo (Optional)
             </label>
 
             <input id="complaintPhoto" type="file" accept="image/*" onchange="previewComplaintPhoto(event)">
@@ -623,9 +700,9 @@
             <div id="photoPreview"></div>
 
 
-            <button type="submit" class="primary-btn full-btn">
+            <button type="submit" id="submitComplaintBtn" class="primary-btn full-btn">
 
-                Submit Complaint
+                🚀 Submit Complaint to Sarkar Sathi
 
             </button>
 
@@ -691,20 +768,20 @@
 </section>
 
 
-<!-- ================= MAP ================= -->
+<!-- ================= COMPLAINT MAP ================= -->
 
 <section id="map" class="page hidden">
 
     <div class="container page-header">
 
         <span class="eyebrow">
-            LOCATION
+            NEPAL CIVIC GEOSPATIAL INTELLIGENCE
         </span>
 
-        <h1>Community Map</h1>
+        <h1>Complaint Map &amp; Smart Hotspots</h1>
 
         <p>
-            Find your current location and explore reported problems.
+            Real-time citizen grievances, AI priority visualization, spatial hotspot clustering, and nearby administrative dispatch across Nepal.
         </p>
 
     </div>
@@ -712,36 +789,360 @@
 
     <div class="container">
 
-        <div class="map-tools">
+        <!-- PART 5: IMPACT OVERVIEW STATS -->
+        <div class="impact-overview-grid">
 
-            <button class="primary-btn" onclick="getLocation(&#39;map&#39;)">
+            <div class="impact-card">
+                <div class="impact-icon blue">📋</div>
+                <div class="impact-meta">
+                    <span class="impact-label">Total Complaints</span>
+                    <strong id="mapTotalStat" class="impact-value">0</strong>
+                </div>
+            </div>
 
-                📍 Find My Location
+            <div class="impact-card critical-card">
+                <div class="impact-icon red pulse-icon">🚨</div>
+                <div class="impact-meta">
+                    <span class="impact-label">Critical Priority</span>
+                    <strong id="mapCriticalStat" class="impact-value text-red">0</strong>
+                </div>
+            </div>
 
-            </button>
+            <div class="impact-card">
+                <div class="impact-icon orange">⚠️</div>
+                <div class="impact-meta">
+                    <span class="impact-label">High Priority</span>
+                    <strong id="mapHighStat" class="impact-value text-orange">0</strong>
+                </div>
+            </div>
 
-            <span id="locationStatus">
-                Location not detected
-            </span>
+            <div class="impact-card">
+                <div class="impact-icon green">✓</div>
+                <div class="impact-meta">
+                    <span class="impact-label">Resolved</span>
+                    <strong id="mapResolvedStat" class="impact-value text-green">0</strong>
+                </div>
+            </div>
+
+            <div class="impact-card hotspot-card">
+                <div class="impact-icon fire">🔥</div>
+                <div class="impact-meta">
+                    <span class="impact-label">Active Hotspots</span>
+                    <strong id="mapHotspotsStat" class="impact-value text-fire">0</strong>
+                </div>
+            </div>
 
         </div>
 
 
-        <div id="mapBox" class="map-box">
+        <!-- PART 3: SMART MAP FILTERING -->
+        <div class="map-control-bar">
 
-            <div class="map-placeholder">
+            <div class="search-box">
+                <span class="search-icon">🔎</span>
+                <input id="mapSearchInput" type="text" placeholder="Search by title, location or #ID..." oninput="handleMapSearch(this.value)">
+            </div>
 
-                <div class="map-icon">
-                    🗺️
+            <div class="filter-group">
+
+                <select id="mapCategoryFilter" onchange="applyMapFilters()">
+                    <option value="all">📂 All Categories</option>
+                    <option value="Roads & Infrastructure">🛣️ Roads &amp; Infrastructure</option>
+                    <option value="Waste Management">🗑️ Waste Management</option>
+                    <option value="Water Supply">💧 Water Supply</option>
+                    <option value="Electricity">💡 Electricity &amp; Lighting</option>
+                    <option value="Public Safety">🚨 Public Safety</option>
+                    <option value="Healthcare">🏥 Healthcare</option>
+                    <option value="Traffic & Transport">🚦 Traffic &amp; Transport</option>
+                    <option value="Government Services">🏛️ Government Services</option>
+                    <option value="Other">📌 Other</option>
+                </select>
+
+                <select id="mapPriorityFilter" onchange="applyMapFilters()">
+                    <option value="all">⚡ All Priorities</option>
+                    <option value="critical">🔴 Critical</option>
+                    <option value="high">🟠 High</option>
+                    <option value="medium">🔵 Medium</option>
+                    <option value="low">🟢 Low</option>
+                </select>
+
+                <select id="mapStatusFilter" onchange="applyMapFilters()">
+                    <option value="all">📊 All Statuses</option>
+                    <option value="pending">⏳ Pending</option>
+                    <option value="in_progress">⚙️ In Progress</option>
+                    <option value="resolved">✅ Resolved</option>
+                </select>
+
+            </div>
+
+            <div class="map-actions">
+
+                <button class="action-btn gps-btn" onclick="locateUserOnMap()" title="Locate my position">
+                    📍 My Area
+                </button>
+
+                <button id="hotspotToggleBtn" class="action-btn hotspot-toggle active" onclick="toggleHotspotsLayer()" title="Toggle hotspot heatmap circles">
+                    🔥 Hotspots: ON
+                </button>
+
+                <button class="action-btn refresh-btn" onclick="refreshMapData()" title="Reload from backend">
+                    🔄 Sync
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- QUICK REGION JUMPS -->
+        <div class="quick-jumps">
+            <span class="quick-label">Focus Region:</span>
+            <button class="jump-pill active" onclick="jumpToNepalRegion('all', this)">🇳🇵 All Nepal</button>
+            <button class="jump-pill" onclick="jumpToNepalRegion('kathmandu', this)">Kathmandu</button>
+            <button class="jump-pill" onclick="jumpToNepalRegion('lalitpur', this)">Lalitpur (Patan)</button>
+            <button class="jump-pill" onclick="jumpToNepalRegion('bhaktapur', this)">Bhaktapur</button>
+            <button class="jump-pill" onclick="jumpToNepalRegion('pokhara', this)">Pokhara</button>
+        </div>
+
+
+        <!-- LEAFLET MAP CANVAS CONTAINER -->
+        <div class="map-wrapper">
+            <div id="mainComplaintMap" class="main-map-canvas"></div>
+
+            <!-- FLOATING MAP LEGEND -->
+            <div class="map-floating-legend">
+                <strong>Severity Legend</strong>
+                <div class="legend-row"><span class="dot dot-critical"></span> Critical (Urgent / Hazard)</div>
+                <div class="legend-row"><span class="dot dot-high"></span> High Priority</div>
+                <div class="legend-row"><span class="dot dot-medium"></span> Medium Priority</div>
+                <div class="legend-row"><span class="dot dot-low"></span> Low Priority</div>
+                <div class="legend-row"><span class="dot dot-hotspot"></span> Area Hotspot Zone</div>
+            </div>
+
+            <div id="mapLoadingOverlay" class="map-loading-overlay hidden">
+                <div class="spinner"></div>
+                <span>Syncing live complaints from PostgreSQL...</span>
+            </div>
+        </div>
+
+
+        <!-- LOWER TWO-COLUMN DASHBOARD (HOTSPOTS + NEARBY SERVICES + INSIGHTS) -->
+        <div class="map-dashboard-grid">
+
+            <!-- LEFT: HOTSPOTS & INSIGHTS -->
+            <div class="dashboard-col">
+
+                <!-- PART 4: SMART HOTSPOT DETECTION -->
+                <div class="intel-card">
+                    <div class="intel-header">
+                        <div>
+                            <h3>🔥 Complaint Hotspots</h3>
+                            <small>Spatial clustering detects high-density problem zones</small>
+                        </div>
+                        <span id="hotspotsBadgeCount" class="badge-counter">3 Detected</span>
+                    </div>
+
+                    <div id="hotspotsContainer" class="hotspots-list">
+                        <!-- Populated dynamically -->
+                    </div>
                 </div>
 
-                <h2>
-                    Sarathi Map
-                </h2>
+                <!-- PART 7: SMART INSIGHTS -->
+                <div class="intel-card">
+                    <div class="intel-header">
+                        <div>
+                            <h3>💡 Smart Civic Insights</h3>
+                            <small>Data-driven intelligence derived from live reports</small>
+                        </div>
+                        <span class="ai-pill">AI Generated</span>
+                    </div>
 
-                <p>
-                    Your location will appear here after you allow location access.
-                </p>
+                    <div id="smartInsightsContainer" class="insights-list">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT: NEARBY GOVERNMENT SERVICES (PART 6) -->
+            <div class="dashboard-col">
+
+                <div class="intel-card services-card">
+                    <div class="intel-header">
+                        <div>
+                            <h3>🏛️ Nearby Government &amp; Emergency Services</h3>
+                            <small id="nearbyTargetLabel">Select any marker or map area to view local administrative offices</small>
+                        </div>
+                        <button class="mini-text-btn" onclick="resetNearbyServicesView()">Default (Valley)</button>
+                    </div>
+
+                    <div id="nearbyServicesList" class="services-list">
+                        <!-- Populated dynamically with real Ward/Police/Hospital facilities and accurate Haversine distance -->
+                    </div>
+
+                    <div class="emergency-quick-bar">
+                        <span>Emergency Lines:</span>
+                        <a href="tel:100" class="call-tag">👮 Police 100</a>
+                        <a href="tel:101" class="call-tag">🚒 Fire 101</a>
+                        <a href="tel:102" class="call-tag">🚑 Ambulance 102</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SMARTROUTE AI PIPELINE SHOWCASE ================= -->
+
+<section id="smartroute" class="page hidden">
+
+    <div class="container page-header">
+
+        <span class="eyebrow">
+            PERSON 4 — AI ROUTING PIPELINE
+        </span>
+
+        <h1>🤖 SmartRoute™ AI Engine</h1>
+
+        <p>
+            Autonomous civic grievance triage: Natural Language Processing extracts categories, determines severity, and assigns the correct Nepal government ministry or ward division.
+        </p>
+
+    </div>
+
+
+    <div class="container">
+
+        <!-- THE 4-STEP PIPELINE (from screenshot) -->
+        <div class="smartroute-hero-card">
+
+            <h2>Automated Decision Pipeline</h2>
+            <p>Every citizen grievance flows through an intelligent multi-stage classification pipeline:</p>
+
+            <div class="flowchart-steps">
+
+                <div class="flow-step-box">
+                    <div class="step-num">Step 1</div>
+                    <div class="step-icon">📝</div>
+                    <strong>Complaint</strong>
+                    <small>Raw citizen text &amp; location</small>
+                </div>
+
+                <div class="flow-arrow">➔</div>
+
+                <div class="flow-step-box">
+                    <div class="step-num">Step 2</div>
+                    <div class="step-icon">🏷️</div>
+                    <strong>Category</strong>
+                    <small>NLP domain classifier</small>
+                </div>
+
+                <div class="flow-arrow">➔</div>
+
+                <div class="flow-step-box">
+                    <div class="step-num">Step 3</div>
+                    <div class="step-icon">⚡</div>
+                    <strong>Priority</strong>
+                    <small>Severity, safety &amp; duration</small>
+                </div>
+
+                <div class="flow-arrow">➔</div>
+
+                <div class="flow-step-box highlight-step">
+                    <div class="step-num">Step 4</div>
+                    <div class="step-icon">🏛️</div>
+                    <strong>Department</strong>
+                    <small>Accredited government routing</small>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- INTERACTIVE LIVE TESTER -->
+        <div class="smartroute-tester-grid">
+
+            <div class="tester-card">
+
+                <h3>Test Grievance with AI</h3>
+                <p>Select a realistic Nepal scenario below or enter your own civic problem:</p>
+
+                <!-- Sample Presets -->
+                <div class="presets-row">
+                    <button class="preset-pill" onclick="applySmartRoutePreset(0)">🚨 Raw Sewage Overflow</button>
+                    <button class="preset-pill" onclick="applySmartRoutePreset(1)">🗑️ Bagmati Waste Dumping</button>
+                    <button class="preset-pill" onclick="applySmartRoutePreset(2)">🛣️ Dangerous Koteshwor Pothole</button>
+                    <button class="preset-pill" onclick="applySmartRoutePreset(3)">💧 Dry Taps in Patan Ward</button>
+                    <button class="preset-pill" onclick="applySmartRoutePreset(4)">⚡ Sparking Transformer Wire</button>
+                </div>
+
+                <div class="tester-form">
+
+                    <label>Complaint Title</label>
+                    <input id="smartRouteInputTitle" placeholder="e.g. Broken water pipe flooding street">
+
+                    <label>Complaint Description</label>
+                    <textarea id="smartRouteInputDesc" rows="4" placeholder="e.g. The main drinking water pipe burst early morning near Patan Hospital..."></textarea>
+
+                    <label>Location</label>
+                    <input id="smartRouteInputLoc" placeholder="e.g. Lagankhel, Lalitpur">
+
+                    <button class="primary-btn full-btn" onclick="executeSmartRouteAnalysis()">
+                        ⚡ Run SmartRoute AI Analysis
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- LIVE AI RESULT CARD -->
+            <div class="tester-card result-card">
+
+                <h3>Live AI Classification Result</h3>
+
+                <div id="smartRouteResultEmpty" class="empty-state">
+                    <div class="empty-icon">🤖</div>
+                    <p>Select a preset or click "Run SmartRoute AI Analysis" to see real-time Groq AI classification and department routing.</p>
+                </div>
+
+                <div id="smartRouteResultActive" class="result-details hidden">
+
+                    <div class="result-badge-row">
+                        <span id="srResultCategory" class="cat-badge">Water Supply</span>
+                        <span id="srResultPriority" class="prio-badge prio-critical">CRITICAL</span>
+                        <span id="srResultConfidence" class="conf-badge">98% Confidence</span>
+                    </div>
+
+                    <div class="result-box">
+                        <div class="result-field">
+                            <span>🏛️ Assigned Government Department:</span>
+                            <strong id="srResultDepartment">Kathmandu Upatyaka Khanepani Limited (KUKL)</strong>
+                        </div>
+
+                        <div class="result-field">
+                            <span>🎯 Specific Issue Type:</span>
+                            <strong id="srResultIssueType">Water Pipeline Rupture</strong>
+                        </div>
+
+                        <div class="result-field">
+                            <span>📋 Executive Summary:</span>
+                            <p id="srResultSummary">Pipeline rupture near Lagankhel causing clean water wastage and street flooding.</p>
+                        </div>
+                    </div>
+
+                    <div class="smart-notice">
+                        <span>💡 AI Model:</span>
+                        <small id="srResultModel">SARATHI AI (Groq gpt-oss / Llama-3-70b via port 5001)</small>
+                    </div>
+
+                </div>
 
             </div>
 
@@ -1058,7 +1459,12 @@
 </footer>
 
 
-<script src="./sarthi 2nd version_files/script.js.download"></script>
+<!-- Leaflet & MarkerCluster JavaScript Libraries -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+<!-- Application Core JavaScript -->
+<script src="script.js"></script>
 
 <!-- Code injected by live-server -->
 <script>
