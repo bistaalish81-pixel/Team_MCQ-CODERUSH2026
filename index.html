@@ -1,1003 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Sarathi | Civic Reporting Platform</title>
-
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sarathi — Smart Features</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
-
 <body>
-
-<!-- ================= HEADER ================= -->
-
-<header class="header">
-
-    <div class="container nav">
-
-        <div class="logo" onclick="showPage('home')">
-            <div class="logo-mark">स</div>
-
-            <div>
-                <h2>Sarathi</h2>
-                <span>Civic Reporting Platform</span>
-            </div>
-        </div>
-
-
-        <nav id="mainNav">
-
-            <button onclick="showPage('home')">
-                Home
-            </button>
-
-            <button onclick="showPage('issues')">
-                Issues
-            </button>
-
-            <button onclick="showPage('report')">
-                Report
-            </button>
-
-            <button onclick="showPage('map')">
-                Map
-            </button>
-
-            <button onclick="showPage('contact')">
-                Contact
-            </button>
-
-        </nav>
-
-
-        <div class="nav-actions">
-
-            <button class="login-btn" onclick="showLogin()">
-                👤 Account
-            </button>
-
-            <button
-                class="menu-btn"
-                onclick="toggleMenu()">
-                ☰
-            </button>
-
-        </div>
-
+  <header class="topbar">
+    <div>
+      <div class="brand">🚦 SARATHI</div>
+      <div class="subtitle">Smart Civic Complaint Intelligence</div>
     </div>
-
-</header>
-
-
-<!-- ================= MAIN ================= -->
-
-<main>
-
-
-<!-- ================= HOME ================= -->
-
-<section id="home" class="page">
-
-    <div class="hero">
-
-        <div class="container hero-grid">
-
-            <div class="hero-text">
-
-                <div class="badge">
-                    🇳🇵 Built for Nepal
-                </div>
-
-                <h1>
-                    Your voice can
-                    <span>improve your community.</span>
-                </h1>
-
-                <p>
-                    Report local problems, share their location,
-                    support community complaints and help create
-                    better neighbourhoods.
-                </p>
-
-
-                <div class="hero-buttons">
-
-                    <button
-                        class="primary-btn"
-                        onclick="showPage('report')">
-
-                        📝 Report a Problem
-
-                    </button>
-
-
-                    <button
-                        class="secondary-btn"
-                        onclick="showPage('issues')">
-
-                        🔎 Explore Issues
-
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <div class="hero-card">
-
-                <div class="hero-card-icon">
-                    📍
-                </div>
-
-                <h3>
-                    See a problem?
-                </h3>
-
-                <p>
-                    Report it in a few simple steps.
-                </p>
-
-                <div class="mini-step">
-                    <span>1</span>
-                    Describe the problem
-                </div>
-
-                <div class="mini-step">
-                    <span>2</span>
-                    Add your location
-                </div>
-
-                <div class="mini-step">
-                    <span>3</span>
-                    Submit your complaint
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- STATS -->
-
-    <div class="container">
-
-        <div class="stats-grid">
-
-            <div class="stat-card">
-                <div class="stat-icon">📋</div>
-                <strong id="totalReports">0</strong>
-                <span>Total Reports</span>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon green">✓</div>
-                <strong id="resolvedReports">0</strong>
-                <span>Resolved</span>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon yellow">⏳</div>
-                <strong id="progressReports">0</strong>
-                <span>In Progress</span>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon red">♥</div>
-                <strong id="supportCount">0</strong>
-                <span>Community Support</span>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- RECENT ISSUES -->
-
-    <div class="container section">
-
-        <div class="section-heading">
-
-            <div>
-                <span class="eyebrow">COMMUNITY</span>
-                <h2>Recent Issues</h2>
-            </div>
-
-            <button
-                class="text-btn"
-                onclick="showPage('issues')">
-
-                View all →
-
-            </button>
-
-        </div>
-
-
-        <div id="homeIssues" class="issue-grid"></div>
-
-    </div>
-
-
-    <!-- HOW IT WORKS -->
-
-    <div class="light-section">
-
-        <div class="container section">
-
-            <div class="center-heading">
-
-                <span class="eyebrow">
-                    SIMPLE PROCESS
-                </span>
-
-                <h2>
-                    How Sarathi works
-                </h2>
-
-                <p>
-                    From reporting a problem to seeing it resolved.
-                </p>
-
-            </div>
-
-
-            <div class="steps-grid">
-
-                <div class="step-card">
-
-                    <div class="step-number">
-                        01
-                    </div>
-
-                    <h3>Report</h3>
-
-                    <p>
-                        Tell us what is wrong and where it is.
-                    </p>
-
-                </div>
-
-
-                <div class="step-card">
-
-                    <div class="step-number">
-                        02
-                    </div>
-
-                    <h3>Support</h3>
-
-                    <p>
-                        Community members can support important issues.
-                    </p>
-
-                </div>
-
-
-                <div class="step-card">
-
-                    <div class="step-number">
-                        03
-                    </div>
-
-                    <h3>Resolve</h3>
-
-                    <p>
-                        Track the issue as it moves towards resolution.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= ISSUES ================= -->
-
-<section id="issues" class="page hidden">
-
-    <div class="container page-header">
-
-        <span class="eyebrow">
-            COMMUNITY REPORTS
-        </span>
-
-        <h1>Reported Issues</h1>
-
-        <p>
-            Explore civic problems reported by the community.
+    <span class="role-badge">Person 4 · Smart Features</span>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">SMARTROUTE</p>
+        <h1>Turn complaints into action.</h1>
+        <p class="hero-text">
+          Analyze a citizen complaint, determine its category and urgency,
+          route it to the right department, and visualize its location.
         </p>
+      </div>
+      <div class="hero-stat">
+        <strong id="liveCount">0</strong>
+        <span>complaints analyzed</span>
+      </div>
+    </section>
 
-    </div>
-
-
-    <div class="container">
-
-        <div class="filters">
-
-            <input
-                id="searchInput"
-                type="text"
-                placeholder="🔎 Search issues..."
-                oninput="filterIssues()"
-            >
-
-
-            <select
-                id="statusFilter"
-                onchange="filterIssues()">
-
-                <option value="all">
-                    All Statuses
-                </option>
-
-                <option value="Open">
-                    Open
-                </option>
-
-                <option value="In Progress">
-                    In Progress
-                </option>
-
-                <option value="Resolved">
-                    Resolved
-                </option>
-
-            </select>
-
-
-            <select
-                id="categoryFilter"
-                onchange="filterIssues()">
-
-                <option value="all">
-                    All Categories
-                </option>
-
-                <option value="Roads">
-                    Roads
-                </option>
-
-                <option value="Waste">
-                    Waste
-                </option>
-
-                <option value="Lighting">
-                    Lighting
-                </option>
-
-                <option value="Water">
-                    Water
-                </option>
-
-                <option value="Other">
-                    Other
-                </option>
-
-            </select>
-
+    <section class="grid">
+      <div class="card analyzer">
+        <div class="card-head">
+          <div>
+            <h2>🤖 Smart Complaint Analyzer</h2>
+            <p>Demo mode — no backend or Supabase required.</p>
+          </div>
+          <span class="status-dot">LOCAL</span>
         </div>
 
+        <label for="complaintText">Complaint description</label>
+        <textarea id="complaintText" rows="7"
+          placeholder="Example: There is a huge pothole near the school and two motorcycles have fallen."></textarea>
 
-        <div
-            id="allIssues"
-            class="issue-grid">
+        <div class="row">
+          <button id="analyzeBtn" class="primary">✨ Analyze Complaint</button>
+          <button id="locationBtn" class="secondary">📍 Use My Location</button>
         </div>
 
-    </div>
+        <div id="locationText" class="location">Location not selected</div>
 
-</section>
-
-
-<!-- ================= REPORT ================= -->
-
-<section id="report" class="page hidden">
-
-    <div class="container page-header">
-
-        <span class="eyebrow">
-            REPORT A PROBLEM
-        </span>
-
-        <h1>Submit a Complaint</h1>
-
-        <p>
-            Give us enough information so the problem can be understood clearly.
-        </p>
-
-    </div>
-
-
-    <div class="container report-layout">
-
-        <form
-            id="reportForm"
-            class="form-card"
-            onsubmit="submitComplaint(event)">
-
-            <h2>Complaint Details</h2>
-
-
-            <label>
-                Problem Title
-            </label>
-
-            <input
-                id="complaintTitle"
-                required
-                placeholder="Example: Broken street light"
-            >
-
-
-            <label>
-                Category
-            </label>
-
-            <select
-                id="complaintCategory"
-                required>
-
-                <option value="">
-                    Select a category
-                </option>
-
-                <option value="Roads">
-                    🛣️ Roads
-                </option>
-
-                <option value="Waste">
-                    🗑️ Waste
-                </option>
-
-                <option value="Lighting">
-                    💡 Lighting
-                </option>
-
-                <option value="Water">
-                    💧 Water
-                </option>
-
-                <option value="Other">
-                    📌 Other
-                </option>
-
-            </select>
-
-
-            <label>
-                Location
-            </label>
-
-            <div class="location-row">
-
-                <input
-                    id="complaintLocation"
-                    required
-                    placeholder="Enter location"
-                >
-
-                <button
-                    type="button"
-                    class="location-btn"
-                    onclick="getLocation('complaint')">
-
-                    📍 GPS
-
-                </button>
-
+        <div id="result" class="result hidden">
+          <div class="result-title">AI-style analysis result</div>
+          <div class="result-grid">
+            <div class="result-box">
+              <span>Category</span>
+              <strong id="categoryResult">—</strong>
             </div>
-
-
-            <label>
-                Description
-            </label>
-
-            <textarea
-                id="complaintDescription"
-                required
-                rows="6"
-                placeholder="Explain what happened..."
-            ></textarea>
-
-
-            <label>
-                Photo
-            </label>
-
-            <input
-                id="complaintPhoto"
-                type="file"
-                accept="image/*"
-                onchange="previewComplaintPhoto(event)"
-            >
-
-            <div id="photoPreview"></div>
-
-
-            <button
-                type="submit"
-                class="primary-btn full-btn">
-
-                Submit Complaint
-
-            </button>
-
-        </form>
-
-
-        <div class="info-column">
-
-            <div class="info-card">
-
-                <div class="info-icon">
-                    📍
-                </div>
-
-                <h3>
-                    Use GPS
-                </h3>
-
-                <p>
-                    You can use your device's location to help identify where the problem is.
-                </p>
-
+            <div class="result-box">
+              <span>Priority</span>
+              <strong id="priorityResult">—</strong>
             </div>
-
-
-            <div class="info-card">
-
-                <div class="info-icon">
-                    📸
-                </div>
-
-                <h3>
-                    Add evidence
-                </h3>
-
-                <p>
-                    A photo can make it easier to understand the problem.
-                </p>
-
+            <div class="result-box">
+              <span>Department</span>
+              <strong id="departmentResult">—</strong>
             </div>
-
-
-            <div class="info-card">
-
-                <div class="info-icon">
-                    🔒
-                </div>
-
-                <h3>
-                    Your information
-                </h3>
-
-                <p>
-                    This prototype stores complaints locally in your browser.
-                </p>
-
+            <div class="result-box">
+              <span>Confidence</span>
+              <strong id="confidenceResult">—</strong>
             </div>
-
+          </div>
+          <div id="reasonResult" class="reason"></div>
+          <button id="addComplaintBtn" class="primary full">➕ Add to Smart Map</button>
         </div>
+      </div>
 
-    </div>
-
-</section>
-
-
-<!-- ================= MAP ================= -->
-
-<section id="map" class="page hidden">
-
-    <div class="container page-header">
-
-        <span class="eyebrow">
-            LOCATION
-        </span>
-
-        <h1>Community Map</h1>
-
-        <p>
-            Find your current location and explore reported problems.
-        </p>
-
-    </div>
-
-
-    <div class="container">
-
-        <div class="map-tools">
-
-            <button
-                class="primary-btn"
-                onclick="getLocation('map')">
-
-                📍 Find My Location
-
-            </button>
-
-            <span id="locationStatus">
-                Location not detected
-            </span>
-
+      <div class="card map-card">
+        <div class="card-head">
+          <div>
+            <h2>🗺️ Smart Complaint Map</h2>
+            <p>All data is stored locally for this standalone demo.</p>
+          </div>
         </div>
-
-
-        <div id="mapBox" class="map-box">
-
-            <div class="map-placeholder">
-
-                <div class="map-icon">
-                    🗺️
-                </div>
-
-                <h2>
-                    Sarathi Map
-                </h2>
-
-                <p>
-                    Your location will appear here after you allow location access.
-                </p>
-
-            </div>
-
+        <div id="map"></div>
+        <div class="legend">
+          <span><i class="critical"></i> Critical</span>
+          <span><i class="high"></i> High</span>
+          <span><i class="medium"></i> Medium</span>
+          <span><i class="low"></i> Low</span>
         </div>
+      </div>
+    </section>
 
-    </div>
+    <section class="stats">
+      <div class="stat"><span>Total</span><strong id="totalStat">0</strong></div>
+      <div class="stat"><span>Critical</span><strong id="criticalStat">0</strong></div>
+      <div class="stat"><span>High</span><strong id="highStat">0</strong></div>
+      <div class="stat"><span>Resolved</span><strong id="resolvedStat">0</strong></div>
+    </section>
 
-</section>
-
-
-<!-- ================= CONTACT ================= -->
-
-<section id="contact" class="page hidden">
-
-    <div class="container page-header">
-
-        <span class="eyebrow">
-            GET IN TOUCH
-        </span>
-
-        <h1>Contact Sarathi</h1>
-
-        <p>
-            Have a question or need help using the platform?
-        </p>
-
-    </div>
-
-
-    <div class="container contact-grid">
-
-        <div class="contact-card">
-
-            <div class="contact-icon">
-                📧
-            </div>
-
-            <h3>Email</h3>
-
-            <p>
-                support@sarathi.example
-            </p>
-
-        </div>
-
-
-        <div class="contact-card">
-
-            <div class="contact-icon">
-                ☎️
-            </div>
-
-            <h3>Support</h3>
-
-            <p>
-                Contact information can be added when the platform has an official support team.
-            </p>
-
-        </div>
-
-
-        <div class="contact-card">
-
-            <div class="contact-icon">
-                🇳🇵
-            </div>
-
-            <h3>Nepal</h3>
-
-            <p>
-                A civic platform designed for communities across Nepal.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-</main>
-
-
-<!-- ================= EMERGENCY ================= -->
-
-<button
-    id="emergencyButton"
-    class="emergency-button"
-    onclick="toggleEmergency()">
-
-    🚨 Emergency
-
-</button>
-
-
-<div
-    id="emergencyPanel"
-    class="emergency-panel hidden">
-
-    <div class="emergency-title">
-
+    <section class="card pipeline">
+      <div class="card-head">
         <div>
-            <strong>Emergency Help</strong>
-            <small>Use only when necessary</small>
+          <h2>🧭 SmartRoute Pipeline</h2>
+          <p>This is the module you own as Person 4.</p>
         </div>
+      </div>
+      <div class="steps">
+        <div><b>01</b><span>Complaint</span></div>
+        <div class="arrow">→</div>
+        <div><b>02</b><span>Category</span></div>
+        <div class="arrow">→</div>
+        <div><b>03</b><span>Priority</span></div>
+        <div class="arrow">→</div>
+        <div><b>04</b><span>Department</span></div>
+        <div class="arrow">→</div>
+        <div><b>05</b><span>Map + Notify</span></div>
+      </div>
+    </section>
 
-        <button onclick="toggleEmergency()">
-            ×
-        </button>
-
-    </div>
-
-
-    <a
-        href="tel:100"
-        class="emergency-item">
-
-        <span>👮</span>
-
+    <section class="card recent">
+      <div class="card-head">
         <div>
-            <strong>Police</strong>
-            <small>Police Control — 100</small>
+          <h2>📋 Recent Smart Complaints</h2>
+          <p>Useful for your hackathon demo.</p>
         </div>
-
-        <b>☎</b>
-
-    </a>
-
-
-    <div class="emergency-warning">
-
-        For immediate danger, contact the appropriate emergency service directly.
-
-    </div>
-
-</div>
-
-
-<!-- ================= AI ================= -->
-
-<button
-    class="ai-button"
-    onclick="toggleAI()">
-
-    🤖 Sarathi AI
-
-</button>
-
-
-<div
-    id="aiPanel"
-    class="ai-panel hidden">
-
-    <div class="ai-header">
-
-        <div>
-            <strong>🤖 Sarathi AI</strong>
-            <small>Civic assistant</small>
-        </div>
-
-        <button onclick="toggleAI()">
-            ×
-        </button>
-
-    </div>
-
-
-    <div
-        id="aiMessages"
-        class="ai-messages">
-
-        <div class="ai-message bot">
-
-            Namaste! 👋<br><br>
-
-            I'm Sarathi AI. I can help you understand how to report a civic problem.
-
-        </div>
-
-    </div>
-
-
-    <div class="ai-suggestions">
-
-        <button onclick="askAI('How do I report a problem?')">
-            How do I report?
-        </button>
-
-        <button onclick="askAI('Which category is garbage?')">
-            Choose category
-        </button>
-
-    </div>
-
-
-    <div class="ai-input">
-
-        <input
-            id="aiInput"
-            placeholder="Ask Sarathi..."
-            onkeydown="if(event.key==='Enter') sendAIMessage()"
-        >
-
-        <button onclick="sendAIMessage()">
-            ➤
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- ================= LOGIN ================= -->
-
-<div
-    id="loginModal"
-    class="modal hidden">
-
-    <div class="modal-box">
-
-        <button
-            class="modal-close"
-            onclick="closeLogin()">
-
-            ×
-
-        </button>
-
-
-        <div class="login-logo">
-            👤
-        </div>
-
-        <h2>
-            Sarathi Account
-        </h2>
-
-        <p>
-            Sign in to manage your reports.
-        </p>
-
-
-        <input
-            id="loginName"
-            placeholder="Your name"
-        >
-
-
-        <input
-            id="loginEmail"
-            type="email"
-            placeholder="Email address"
-        >
-
-
-        <button
-            class="primary-btn full-btn"
-            onclick="loginUser()">
-
-            Continue
-
-        </button>
-
-
-        <div
-            id="loginMessage"
-            class="login-message">
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- ================= TOAST ================= -->
-
-<div
-    id="toast"
-    class="toast">
-
-</div>
-
-
-<!-- ================= FOOTER ================= -->
-
-<footer>
-
-    <div class="container footer-grid">
-
-        <div>
-
-            <h2>
-                🇳🇵 Sarathi
-            </h2>
-
-            <p>
-                Helping communities report problems and work towards better places.
-            </p>
-
-        </div>
-
-
-        <div>
-
-            <h3>
-                Platform
-            </h3>
-
-            <button onclick="showPage('issues')">
-                Issues
-            </button>
-
-            <button onclick="showPage('report')">
-                Report
-            </button>
-
-            <button onclick="showPage('map')">
-                Map
-            </button>
-
-        </div>
-
-
-        <div>
-
-            <h3>
-                Help
-            </h3>
-
-            <button onclick="showPage('contact')">
-                Contact
-            </button>
-
-            <button onclick="toggleEmergency()">
-                Emergency
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <div class="footer-bottom">
-
-        © 2026 Sarathi — Civic Reporting Prototype
-
-    </div>
-
-</footer>
-
-
-<script src="script.js"></script>
-
+        <button id="clearBtn" class="text-btn">Clear local demo data</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Complaint</th><th>Category</th><th>Priority</th><th>Department</th><th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="complaintsTable">
+            <tr><td colspan="5" class="empty">No complaints yet. Analyze one above.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+  <script src="app.js"></script>
 </body>
 </html>
