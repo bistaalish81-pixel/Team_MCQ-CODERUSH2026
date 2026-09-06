@@ -3,7 +3,24 @@
 /* Interactive Map + Smart Features                  */
 /* ================================================= */
 
-const API_BASE = "http://localhost:5001";
+// Dynamic API Base URL:
+// - Uses window.ENV.API_URL or window.__API_BASE__ if specified
+// - When running locally on dev static server (port 8080), falls back to http://localhost:5001
+// - In production on Vercel, resolves to "" (relative /api/* requests on same origin)
+const API_BASE = (() => {
+    if (typeof window !== "undefined" && window.ENV && (window.ENV.API_URL || window.ENV.VITE_API_URL)) {
+        return window.ENV.API_URL || window.ENV.VITE_API_URL;
+    }
+    if (typeof window !== "undefined" && window.__API_BASE__) {
+        return window.__API_BASE__;
+    }
+    if (typeof window !== "undefined" &&
+        (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") &&
+        window.location.port !== "5001" && window.location.port !== "") {
+        return "http://localhost:5001";
+    }
+    return "";
+})();
 
 /* Global State */
 let backendComplaints = [];
@@ -337,7 +354,7 @@ async function adminLogin() {
         }
     } catch (err) {
         if (errorDiv) {
-            errorDiv.textContent = "Cannot connect to backend server. Make sure it's running on port 5001.";
+            errorDiv.textContent = "Cannot connect to backend server. Please verify your connection or server status.";
             errorDiv.classList.remove("hidden");
         }
     }

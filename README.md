@@ -68,12 +68,10 @@ python3 -m http.server 8080
 
 The web application will be running at `http://localhost:8080` (or `http://localhost:5500` via Live Server).
 
-### Environment Variables (if applicable)
+### Environment Variables
 
-Create a `.env` file in the `backend/` directory:
-
+#### For Local Development (`backend/.env`):
 ```bash
-# backend/.env
 DB_USER=your_postgres_user
 DB_HOST=localhost
 DB_NAME=sarathi
@@ -82,14 +80,23 @@ GROQ_API_KEY=your_groq_api_key_here
 PORT=5001
 ```
 
+#### For Production / Vercel Deployment:
+Add these in **Vercel Project Settings ➔ Environment Variables**:
+
 | Variable | Required | Description |
 |---|---|---|
-| `DB_USER` | Yes | PostgreSQL database user |
-| `DB_HOST` | Yes | PostgreSQL host (default: `localhost`) |
-| `DB_NAME` | Yes | PostgreSQL database name (`sarathi`) |
-| `DB_PORT` | Yes | PostgreSQL port (default: `5432`) |
-| `GROQ_API_KEY` | Yes | API key from Groq Console for LLM classification |
-| `PORT` | No | Express server port (default: `5001`) |
+| `DATABASE_URL` | **Yes** | Cloud PostgreSQL URI (e.g. Neon: `postgresql://user:pass@ep-xyz.region.aws.neon.tech/neondb?sslmode=require`) |
+| `GROQ_API_KEY` | **Yes** | API key from Groq Console for LLM classification |
+| `GROQ_MODEL` | No | Model name (defaults to `openai/gpt-oss-120b`) |
+
+### Deployment to Vercel
+
+1. Import this repository into Vercel.
+2. Add `DATABASE_URL` (from Neon/Supabase) and `GROQ_API_KEY` in Environment Variables.
+3. Deploy! Vercel automatically:
+   - Serves the frontend statically from the root (`index.html`, `script.js`, `style.css`).
+   - Routes `/api/*` to the serverless Express backend via `api/index.js`.
+   - Provisions database tables and seeds Nepal civic demo data automatically.
 
 ## Demo Credentials (if applicable)
 

@@ -1,6 +1,10 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
+
+// Load .env from current directory or backend directory
 require("dotenv").config();
+require("dotenv").config({ path: path.join(__dirname, ".env") });
 
 const { Pool } = require("pg");
 const OpenAI = require("openai");
@@ -9,8 +13,10 @@ const OpenAI = require("openai");
 // GROQ AI CONFIGURATION
 // ==========================================
 
+const groqApiKey = process.env.GROQ_API_KEY || "dummy_key_for_build";
+
 const ai = new OpenAI({
-  apiKey: process.env.GROQ_API_KEY,
+  apiKey: groqApiKey,
   baseURL: "https://api.groq.com/openai/v1",
 });
 
@@ -23,25 +29,62 @@ const AI_TEMPERATURE = 0.2;
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 app.use(express.json());
 
 // ==========================================
 // POSTGRESQL DATABASE
 // ==========================================
 
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT,
-});
+// Supports either a single DATABASE_URL (e.g. Neon, Supabase, Render)
+// or individual DB_* variables for local development on Mac.
+const poolConfig = process.env.DATABASE_URL
+  ? {
+      connectionString: process.env.DATABASE_URL,
+      ssl: { rejectUnauthorized: false }
+    }
+  : {
+      user: process.env.DB_USER,
+      host: process.env.DB_HOST,
+      database: process.env.DB_NAME,
+      password: process.env.DB_PASSWORD,
+      port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 5432,
+    };
+
+const pool = new Pool(poolConfig);
 
 // ==========================================
 // DATABASE SCHEMA (idempotent, non-destructive)
 // ==========================================
 
 const ensureSchema = async () => {
+  // 1. Create table if it does not exist yet (e.g. fresh cloud database)
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS complaints (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER,
+      title VARCHAR(255) NOT NULL,
+      description TEXT NOT NULL,
+      category VARCHAR(100) NOT NULL,
+      location VARCHAR(255),
+      status VARCHAR(50) DEFAULT 'pending',
+      priority VARCHAR(20) DEFAULT 'medium',
+      department VARCHAR(255),
+      issue_type VARCHAR(255),
+      summary TEXT,
+      confidence DOUBLE PRECISION,
+      latitude DOUBLE PRECISION,
+      longitude DOUBLE PRECISION,
+      created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
+      updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW()
+    );
+  `);
+
+  // 2. Add columns if table existed from an older migration
   await pool.query(`
     ALTER TABLE complaints
       ADD COLUMN IF NOT EXISTS priority VARCHAR(20),
@@ -53,6 +96,34 @@ const ensureSchema = async () => {
       ADD COLUMN IF NOT EXISTS longitude DOUBLE PRECISION;
   `);
 };
+
+// Safe initialization state for serverless environments
+let isInitialized = false;
+let initPromise = null;
+
+const initDB = async () => {
+  if (isInitialized) return;
+  if (!initPromise) {
+    initPromise = (async () => {
+      try {
+        await ensureSchema();
+        await seedComplaintsIfEmpty();
+        isInitialized = true;
+      } catch (err) {
+        console.error("Database initialization notice:", err.message);
+      }
+    })();
+  }
+  return initPromise;
+};
+
+// Serverless cold-start middleware: ensures DB is ready on first complaint request
+app.use(async (req, res, next) => {
+  if (!isInitialized && req.path.startsWith("/api/complaints")) {
+    await initDB();
+  }
+  next();
+});
 
 // ==========================================
 // CONSTANTS / VALIDATION
@@ -852,22 +923,32 @@ const seedComplaintsIfEmpty = async () => {
   }
 };
 
-// Test database connection, ensure schema, then listen.
-(async () => {
-  try {
-    await pool.connect();
-    console.log("PostgreSQL connected successfully ✅");
+// ==========================================
+// STARTUP & EXPORTS
+// ==========================================
 
-    await ensureSchema();
-    console.log("Database schema is up to date ✅");
+// If executed directly (node server.js), start local server listener
+if (require.main === module) {
+  (async () => {
+    try {
+      const client = await pool.connect();
+      client.release();
+      console.log("PostgreSQL connected successfully ✅");
 
-    await seedComplaintsIfEmpty();
-  } catch (error) {
-    console.error("PostgreSQL setup failed ❌");
-    console.error(error.message);
-  }
+      await initDB();
+      console.log("Database schema and seeds verified ✅");
+    } catch (error) {
+      console.error("PostgreSQL setup notice ⚠️");
+      console.error(error.message);
+    }
 
-  app.listen(PORT, () => {
-    console.log(`SARATHI Backend running on http://localhost:${PORT} 🚀`);
-  });
-})();
+    app.listen(PORT, () => {
+      console.log(`SARATHI Backend running on http://localhost:${PORT} 🚀`);
+    });
+  })();
+}
+
+// Export for Vercel Serverless Functions
+module.exports = app;
+module.exports.pool = pool;
+module.exports.initDB = initDB;
