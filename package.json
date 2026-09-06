@@ -13,5 +13,8 @@
     "express": "^5.2.1",
     "openai": "^7.10.0",
     "pg": "^8.23.0"
+  },
+  "devDependencies": {
+    "vercel": "^59.11.7"
   }
 }
