@@ -654,6 +654,40 @@ app.post("/api/ai/analyze", async (req, res) => {
 });
 
 // ==========================================
+// ADMIN AUTHENTICATION
+// ==========================================
+
+const ADMIN_USER = "admin";
+const ADMIN_PASS = "admin123";
+const ADMIN_TOKEN = "sarathi-admin-token-2026";
+
+app.post("/api/admin/login", (req, res) => {
+  const { username, password } = req.body;
+
+  if (username === ADMIN_USER && password === ADMIN_PASS) {
+    return res.json({
+      success: true,
+      message: "Admin authenticated successfully",
+      token: ADMIN_TOKEN,
+      user: { username: ADMIN_USER, role: "admin" }
+    });
+  }
+
+  return res.status(401).json({
+    success: false,
+    message: "Invalid admin credentials"
+  });
+});
+
+app.get("/api/admin/verify", (req, res) => {
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader === `Bearer ${ADMIN_TOKEN}`) {
+    return res.json({ valid: true, user: { username: ADMIN_USER, role: "admin" } });
+  }
+  return res.status(401).json({ valid: false });
+});
+
+// ==========================================
 // SERVER
 // ==========================================
 

@@ -226,8 +226,11 @@ const CATEGORY_ICONS = {
 };
 
 /* ================================================= */
-/* 1. PAGE NAVIGATION & LIFECYCLE                   */
+/* 15. ADMIN PANEL FUNCTIONALITY                     */
 /* ================================================= */
+
+let adminToken = null;
+let adminComplaints = [];
 
 function showPage(pageName) {
     const pages = document.querySelectorAll(".page");
@@ -260,8 +263,310 @@ function showPage(pageName) {
         }, 100);
     } else if (pageName === "smartroute") {
         // Ready
+    } else if (pageName === "admin") {
+        checkAdminSession();
     }
 }
+
+function checkAdminSession() {
+    const savedToken = localStorage.getItem("sarathiAdminToken");
+    if (savedToken) {
+        adminToken = savedToken;
+        showAdminDashboard();
+    } else {
+        showAdminLogin();
+    }
+}
+
+function showAdminLogin() {
+    const loginView = document.getElementById("adminLoginView");
+    const dashView = document.getElementById("adminDashboardView");
+    if (loginView) loginView.classList.remove("hidden");
+    if (dashView) dashView.classList.add("hidden");
+}
+
+function showAdminDashboard() {
+    const loginView = document.getElementById("adminLoginView");
+    const dashView = document.getElementById("adminDashboardView");
+    if (loginView) loginView.classList.add("hidden");
+    if (dashView) dashView.classList.remove("hidden");
+
+    const userLabel = document.getElementById("adminUserLabel");
+    if (userLabel) userLabel.textContent = "admin";
+
+    adminRefreshComplaints();
+}
+
+async function adminLogin() {
+    const usernameInput = document.getElementById("adminUsername");
+    const passwordInput = document.getElementById("adminPassword");
+    const errorDiv = document.getElementById("adminLoginError");
+
+    const username = usernameInput ? usernameInput.value.trim() : "";
+    const password = passwordInput ? passwordInput.value.trim() : "";
+
+    if (!username || !password) {
+        if (errorDiv) {
+            errorDiv.textContent = "Please enter both username and password.";
+            errorDiv.classList.remove("hidden");
+        }
+        return;
+    }
+
+    try {
+        const res = await fetch(`${API_BASE}/api/admin/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok && data.success) {
+            adminToken = data.token;
+            localStorage.setItem("sarathiAdminToken", data.token);
+
+            if (errorDiv) errorDiv.classList.add("hidden");
+            showToast("🛡️ Admin login successful! Welcome to the dashboard.");
+            showAdminDashboard();
+        } else {
+            if (errorDiv) {
+                errorDiv.textContent = data.message || "Invalid credentials. Please try again.";
+                errorDiv.classList.remove("hidden");
+            }
+        }
+    } catch (err) {
+        if (errorDiv) {
+            errorDiv.textContent = "Cannot connect to backend server. Make sure it's running on port 5001.";
+            errorDiv.classList.remove("hidden");
+        }
+    }
+}
+
+function adminLogout() {
+    adminToken = null;
+    localStorage.removeItem("sarathiAdminToken");
+    showToast("Logged out of admin dashboard.");
+    showAdminLogin();
+
+    // Clear inputs
+    const usernameInput = document.getElementById("adminUsername");
+    const passwordInput = document.getElementById("adminPassword");
+    if (usernameInput) usernameInput.value = "";
+    if (passwordInput) passwordInput.value = "";
+}
+
+async function adminRefreshComplaints() {
+    try {
+        const [complaintsRes, statsRes] = await Promise.all([
+            fetch(`${API_BASE}/api/complaints`),
+            fetch(`${API_BASE}/api/complaints/stats`)
+        ]);
+
+        if (complaintsRes.ok) {
+            adminComplaints = await complaintsRes.json();
+        }
+
+        if (statsRes.ok) {
+            const stats = await statsRes.json();
+            const totalEl = document.getElementById("adminStatTotal");
+            const pendingEl = document.getElementById("adminStatPending");
+            const progressEl = document.getElementById("adminStatProgress");
+            const resolvedEl = document.getElementById("adminStatResolved");
+            const criticalEl = document.getElementById("adminStatCritical");
+
+            if (totalEl) totalEl.textContent = stats.total || 0;
+            if (pendingEl) pendingEl.textContent = stats.pending || 0;
+            if (progressEl) progressEl.textContent = stats.in_progress || 0;
+            if (resolvedEl) resolvedEl.textContent = stats.resolved || 0;
+            if (criticalEl) criticalEl.textContent = stats.critical || 0;
+        }
+
+        adminRenderTable(adminComplaints);
+        showToast("Admin data refreshed from database.");
+    } catch (err) {
+        showToast("Failed to fetch data from backend.");
+    }
+}
+
+function adminRenderTable(complaints) {
+    const tbody = document.getElementById("adminTableBody");
+    const emptyDiv = document.getElementById("adminTableEmpty");
+    if (!tbody) return;
+
+    if (!complaints || complaints.length === 0) {
+        tbody.innerHTML = "";
+        if (emptyDiv) emptyDiv.classList.remove("hidden");
+        return;
+    }
+
+    if (emptyDiv) emptyDiv.classList.add("hidden");
+
+    tbody.innerHTML = complaints.map(c => {
+        const priority = (c.priority || "medium").toLowerCase();
+        const status = (c.status || "pending").toLowerCase();
+        const categoryIcon = CATEGORY_ICONS[c.category] || "📌";
+
+        return `
+            <tr>
+                <td class="admin-id">#${c.id}</td>
+                <td class="admin-title-cell" title="${escapeHTML(c.title)}">${escapeHTML(c.title)}</td>
+                <td>${categoryIcon} ${escapeHTML(c.category || 'Other')}</td>
+                <td class="admin-location-cell" title="${escapeHTML(c.location || '')}">${escapeHTML(c.location || 'N/A')}</td>
+                <td>
+                    <select class="admin-status-select ${priority}" onchange="adminChangePriority(${c.id}, this.value)">
+                        <option value="low" ${priority === 'low' ? 'selected' : ''}>🟢 Low</option>
+                        <option value="medium" ${priority === 'medium' ? 'selected' : ''}>🔵 Medium</option>
+                        <option value="high" ${priority === 'high' ? 'selected' : ''}>🟠 High</option>
+                        <option value="critical" ${priority === 'critical' ? 'selected' : ''}>🔴 Critical</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="admin-status-select ${status}" onchange="adminChangeStatus(${c.id}, this.value)">
+                        <option value="pending" ${status === 'pending' ? 'selected' : ''}>⏳ Pending</option>
+                        <option value="in_progress" ${status === 'in_progress' ? 'selected' : ''}>⚙️ In Progress</option>
+                        <option value="resolved" ${status === 'resolved' ? 'selected' : ''}>✅ Resolved</option>
+                    </select>
+                </td>
+                <td class="admin-dept-cell" title="${escapeHTML(c.department || '')}">${escapeHTML(c.department || 'Unassigned')}</td>
+                <td>
+                    <div class="admin-action-btns">
+                        <button class="admin-action-btn view" onclick="adminViewComplaint(${c.id})">👁️ View</button>
+                        <button class="admin-action-btn delete" onclick="adminDeleteComplaint(${c.id})">🗑️ Delete</button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }).join("");
+}
+
+function adminFilterTable() {
+    const searchVal = (document.getElementById("adminSearchInput")?.value || "").toLowerCase();
+    const statusVal = document.getElementById("adminStatusFilter")?.value || "all";
+
+    const filtered = adminComplaints.filter(c => {
+        const matchSearch = !searchVal ||
+            (c.title || "").toLowerCase().includes(searchVal) ||
+            (c.description || "").toLowerCase().includes(searchVal) ||
+            (c.location || "").toLowerCase().includes(searchVal) ||
+            (c.department || "").toLowerCase().includes(searchVal) ||
+            String(c.id).includes(searchVal);
+
+        const matchStatus = statusVal === "all" || (c.status || "").toLowerCase() === statusVal;
+
+        return matchSearch && matchStatus;
+    });
+
+    adminRenderTable(filtered);
+}
+
+async function adminChangeStatus(id, newStatus) {
+    try {
+        const res = await fetch(`${API_BASE}/api/complaints/${id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: newStatus })
+        });
+
+        if (res.ok) {
+            showToast(`Complaint #${id} status updated to "${newStatus}".`);
+            // Update local cache
+            const complaint = adminComplaints.find(c => c.id === id);
+            if (complaint) complaint.status = newStatus;
+            // Refresh global data
+            fetchBackendComplaints();
+        } else {
+            showToast("Failed to update status.");
+        }
+    } catch (err) {
+        showToast("Error connecting to backend.");
+    }
+}
+
+async function adminChangePriority(id, newPriority) {
+    try {
+        const res = await fetch(`${API_BASE}/api/complaints/${id}`, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ priority: newPriority })
+        });
+
+        if (res.ok) {
+            showToast(`Complaint #${id} priority updated to "${newPriority}".`);
+            const complaint = adminComplaints.find(c => c.id === id);
+            if (complaint) complaint.priority = newPriority;
+            fetchBackendComplaints();
+        } else {
+            showToast("Failed to update priority.");
+        }
+    } catch (err) {
+        showToast("Error connecting to backend.");
+    }
+}
+
+async function adminDeleteComplaint(id) {
+    if (!confirm(`Are you sure you want to permanently delete complaint #${id}?`)) return;
+
+    try {
+        const res = await fetch(`${API_BASE}/api/complaints/${id}`, {
+            method: "DELETE"
+        });
+
+        if (res.ok) {
+            showToast(`Complaint #${id} deleted successfully.`);
+            adminComplaints = adminComplaints.filter(c => c.id !== id);
+            adminFilterTable();
+            adminRefreshComplaints();
+            fetchBackendComplaints();
+        } else {
+            showToast("Failed to delete complaint.");
+        }
+    } catch (err) {
+        showToast("Error connecting to backend.");
+    }
+}
+
+function adminViewComplaint(id) {
+    const c = adminComplaints.find(x => x.id === id);
+    if (!c) return;
+
+    const priority = (c.priority || "medium").toUpperCase();
+    const status = (c.status || "pending").replace("_", " ").toUpperCase();
+    const confidence = typeof c.confidence === "number"
+        ? (c.confidence > 1 ? c.confidence : Math.round(c.confidence * 100))
+        : "N/A";
+
+    alert(
+`═══════════════════════════════
+ COMPLAINT DETAILS #${c.id}
+═══════════════════════════════
+Title: ${c.title}
+Category: ${c.category || 'N/A'}
+Priority: ${priority}
+Status: ${status}
+Location: ${c.location || 'N/A'}
+Coordinates: ${c.latitude || 'N/A'}, ${c.longitude || 'N/A'}
+Department: ${c.department || 'Unassigned'}
+Issue Type: ${c.issue_type || 'N/A'}
+AI Confidence: ${confidence}%
+Created: ${c.created_at || 'N/A'}
+───────────────────────────────
+Summary: ${c.summary || c.description || 'No summary'}
+───────────────────────────────
+Description: ${c.description || 'No description'}
+═══════════════════════════════`
+    );
+}
+
+/* ================================================= */
+/* 16. BOOTSTRAP INITIALIZATION                      */
+/* ================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+    displayHomeIssues();
+    updateStats();
+    fetchBackendComplaints();
+});
 
 function toggleMenu() {
     const nav = document.getElementById("mainNav");
@@ -1580,13 +1885,3 @@ function escapeHTML(text) {
     div.textContent = String(text);
     return div.innerHTML;
 }
-
-/* ================================================= */
-/* 15. BOOTSTRAP INITIALIZATION                      */
-/* ================================================= */
-
-document.addEventListener("DOMContentLoaded", () => {
-    displayHomeIssues();
-    updateStats();
-    fetchBackendComplaints();
-});

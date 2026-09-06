@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <!-- saved from url=(0032)http://127.0.0.1:5500/index.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Sarkar Sathi AI | Nepal Civic Platform & Smart Map</title>
@@ -9,1500 +12,1691 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <!-- Leaflet MarkerCluster CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
 
     <!-- Main Stylesheet -->
     <link rel="stylesheet" href="style.css">
 </head>
+13
 
 <body>
 
-<!-- ================= HEADER ================= -->
+    <!-- ================= HEADER ================= -->
 
-<header class="header">
+    <header class="header">
 
-    <div class="container nav">
+        <div class="container nav">
 
-        <div class="logo" onclick="showPage('home')">
-            <div class="logo-mark">स</div>
+            <div class="logo" onclick="showPage('home')">
+                <div class="logo-mark">स</div>
 
-            <div>
-                <h2>Sarkar Sathi AI</h2>
-                <span>Civic Intelligence & Smart Map</span>
-            </div>
-        </div>
-
-
-        <nav id="mainNav">
-
-            <button onclick="showPage('home')">
-                Home
-            </button>
-
-            <button onclick="showPage('issues')">
-                Issues
-            </button>
-
-            <button onclick="showPage('report')">
-                Report
-            </button>
-
-            <button onclick="showPage('map')" class="nav-featured">
-                🗺️ Complaint Map
-            </button>
-
-            <button onclick="showPage('smartroute')" class="nav-smart">
-                🤖 SmartRoute AI
-            </button>
-
-            <button onclick="showPage('contact')">
-                Contact
-            </button>
-
-        </nav>
-
-
-        <div class="nav-actions">
-
-            <button class="login-btn" onclick="showLogin()">
-                👤 Account
-            </button>
-
-            <button class="menu-btn" onclick="toggleMenu()">
-                ☰
-            </button>
-
-        </div>
-
-    </div>
-
-</header>
-
-
-<!-- ================= MAIN ================= -->
-
-<main>
-
-
-<!-- ================= HOME ================= -->
-
-<section id="home" class="page">
-
-    <div class="hero">
-
-        <div class="container hero-grid">
-
-            <div class="hero-text">
-
-                <div class="badge">
-                    🇳🇵 Built for Nepal
+                <div>
+                    <h2>Sarkar Sathi AI</h2>
+                    <span>Civic Intelligence & Smart Map</span>
                 </div>
-
-                <h1>
-                    Your voice can
-                    <span>improve your community.</span>
-                </h1>
-
-                <p>
-                    Report local problems, share their location,
-                    support community complaints and help create
-                    better neighbourhoods.
-                </p>
-
-
-                <div class="hero-buttons">
-
-                    <button class="primary-btn" onclick="showPage(&#39;report&#39;)">
-
-                        📝 Report a Problem
-
-                    </button>
-
-
-                    <button class="secondary-btn" onclick="showPage(&#39;issues&#39;)">
-
-                        🔎 Explore Issues
-
-                    </button>
-
-                </div>
-
             </div>
 
 
-            <div class="hero-card">
+            <nav id="mainNav">
 
-                <div class="hero-card-icon">
-                    📍
-                </div>
+                <button onclick="showPage('home')">
+                    Home
+                </button>
 
-                <h3>
-                    See a problem?
-                </h3>
+                <button onclick="showPage('issues')">
+                    Issues
+                </button>
 
-                <p>
-                    Report it in a few simple steps.
-                </p>
+                <button onclick="showPage('report')">
+                    Report
+                </button>
 
-                <div class="mini-step">
-                    <span>1</span>
-                    Describe the problem
-                </div>
+                <button onclick="showPage('map')" class="nav-featured">
+                    🗺️ Complaint Map
+                </button>
 
-                <div class="mini-step">
-                    <span>2</span>
-                    Add your location
-                </div>
+                <button onclick="showPage('smartroute')" class="nav-smart">
+                    🤖 SmartRoute AI
+                </button>
 
-                <div class="mini-step">
-                    <span>3</span>
-                    Submit your complaint
-                </div>
+                <button onclick="showPage('contact')">
+                    Contact
+                </button>
 
-            </div>
+                <button onclick="showPage('admin')" class="nav-admin">
+                    🔐 Admin
+                </button>
 
-        </div>
-
-    </div>
+            </nav>
 
 
-    <!-- STATS -->
+            <div class="nav-actions">
 
-    <div class="container">
+                <button class="login-btn" onclick="showLogin()">
+                    👤 Account
+                </button>
 
-        <div class="stats-grid">
-
-            <div class="stat-card">
-                <div class="stat-icon">📋</div>
-                <strong id="totalReports">6</strong>
-                <span>Total Reports</span>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon green">✓</div>
-                <strong id="resolvedReports">1</strong>
-                <span>Resolved</span>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon yellow">⏳</div>
-                <strong id="progressReports">2</strong>
-                <span>In Progress</span>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon red">♥</div>
-                <strong id="supportCount">91</strong>
-                <span>Community Support</span>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- RECENT ISSUES -->
-
-    <div class="container section">
-
-        <div class="section-heading">
-
-            <div>
-                <span class="eyebrow">COMMUNITY</span>
-                <h2>Recent Issues</h2>
-            </div>
-
-            <button class="text-btn" onclick="showPage(&#39;issues&#39;)">
-
-                View all →
-
-            </button>
-
-        </div>
-
-
-        <div id="homeIssues" class="issue-grid">
-
-        <article class="issue-card">
-
-            <div class="issue-top">
-
-                <span class="issue-category">
-                    Roads
-                </span>
-
-                <span class="status status-open">
-                    Open
-                </span>
-
-            </div>
-
-
-            <h3>
-                Damaged Footpath
-            </h3>
-
-
-            <p class="issue-description">
-                The footpath near the local market is damaged and difficult for pedestrians to use.
-            </p>
-
-
-            <div class="issue-location">
-                📍 Kathmandu
-            </div>
-
-
-            <div class="issue-footer">
-
-                <span>
-                    ❤️ 11 support
-                </span>
-
-                <button class="vote-btn" onclick="supportIssue(6)">
-
-                    Support
-
+                <button class="menu-btn" onclick="toggleMenu()">
+                    ☰
                 </button>
 
             </div>
 
-        </article>
+        </div>
 
-    
-
-        <article class="issue-card">
-
-            <div class="issue-top">
-
-                <span class="issue-category">
-                    Waste
-                </span>
-
-                <span class="status status-progress">
-                    In Progress
-                </span>
-
-            </div>
+    </header>
 
 
-            <h3>
-                Roadside Waste
-            </h3>
+    <!-- ================= MAIN ================= -->
+
+    <main>
 
 
-            <p class="issue-description">
-                Waste has been left beside the road for several days and requires collection.
-            </p>
+        <!-- ================= HOME ================= -->
+
+        <section id="home" class="page">
+
+            <div class="hero">
+
+                <div class="container hero-grid">
+
+                    <div class="hero-text">
+
+                        <div class="badge">
+                            🇳🇵 Built for Nepal
+                        </div>
+
+                        <h1>
+                            Your voice can
+                            <span>improve your community.</span>
+                        </h1>
+
+                        <p>
+                            Report local problems, share their location,
+                            support community complaints and help create
+                            better neighbourhoods.
+                        </p>
 
 
-            <div class="issue-location">
-                📍 Patan
-            </div>
+                        <div class="hero-buttons">
+
+                            <button class="primary-btn" onclick="showPage(&#39;report&#39;)">
+
+                                📝 Report a Problem
+
+                            </button>
 
 
-            <div class="issue-footer">
+                            <button class="secondary-btn" onclick="showPage(&#39;issues&#39;)">
 
-                <span>
-                    ❤️ 14 support
-                </span>
+                                🔎 Explore Issues
 
-                <button class="vote-btn" onclick="supportIssue(5)">
+                            </button>
 
-                    Support
+                        </div>
 
-                </button>
-
-            </div>
-
-        </article>
-
-    
-
-        <article class="issue-card">
-
-            <div class="issue-top">
-
-                <span class="issue-category">
-                    Water
-                </span>
-
-                <span class="status status-open">
-                    Open
-                </span>
-
-            </div>
-
-
-            <h3>
-                Water Supply Issue
-            </h3>
-
-
-            <p class="issue-description">
-                Residents in this area have reported inconsistent water supply during the morning hours.
-            </p>
-
-
-            <div class="issue-location">
-                📍 Kirtipur
-            </div>
-
-
-            <div class="issue-footer">
-
-                <span>
-                    ❤️ 9 support
-                </span>
-
-                <button class="vote-btn" onclick="supportIssue(4)">
-
-                    Support
-
-                </button>
-
-            </div>
-
-        </article>
-
-    </div>
-
-    </div>
-
-
-    <!-- HOW IT WORKS -->
-
-    <div class="light-section">
-
-        <div class="container section">
-
-            <div class="center-heading">
-
-                <span class="eyebrow">
-                    SIMPLE PROCESS
-                </span>
-
-                <h2>
-                    How Sarathi works
-                </h2>
-
-                <p>
-                    From reporting a problem to seeing it resolved.
-                </p>
-
-            </div>
-
-
-            <div class="steps-grid">
-
-                <div class="step-card">
-
-                    <div class="step-number">
-                        01
                     </div>
 
-                    <h3>Report</h3>
+
+                    <div class="hero-card">
+
+                        <div class="hero-card-icon">
+                            📍
+                        </div>
+
+                        <h3>
+                            See a problem?
+                        </h3>
+
+                        <p>
+                            Report it in a few simple steps.
+                        </p>
+
+                        <div class="mini-step">
+                            <span>1</span>
+                            Describe the problem
+                        </div>
+
+                        <div class="mini-step">
+                            <span>2</span>
+                            Add your location
+                        </div>
+
+                        <div class="mini-step">
+                            <span>3</span>
+                            Submit your complaint
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- STATS -->
+
+            <div class="container">
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+                        <div class="stat-icon">📋</div>
+                        <strong id="totalReports">6</strong>
+                        <span>Total Reports</span>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon green">✓</div>
+                        <strong id="resolvedReports">1</strong>
+                        <span>Resolved</span>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon yellow">⏳</div>
+                        <strong id="progressReports">2</strong>
+                        <span>In Progress</span>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon red">♥</div>
+                        <strong id="supportCount">91</strong>
+                        <span>Community Support</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RECENT ISSUES -->
+
+            <div class="container section">
+
+                <div class="section-heading">
+
+                    <div>
+                        <span class="eyebrow">COMMUNITY</span>
+                        <h2>Recent Issues</h2>
+                    </div>
+
+                    <button class="text-btn" onclick="showPage(&#39;issues&#39;)">
+
+                        View all →
+
+                    </button>
+
+                </div>
+
+
+                <div id="homeIssues" class="issue-grid">
+
+                    <article class="issue-card">
+
+                        <div class="issue-top">
+
+                            <span class="issue-category">
+                                Roads
+                            </span>
+
+                            <span class="status status-open">
+                                Open
+                            </span>
+
+                        </div>
+
+
+                        <h3>
+                            Damaged Footpath
+                        </h3>
+
+
+                        <p class="issue-description">
+                            The footpath near the local market is damaged and difficult for pedestrians to use.
+                        </p>
+
+
+                        <div class="issue-location">
+                            📍 Kathmandu
+                        </div>
+
+
+                        <div class="issue-footer">
+
+                            <span>
+                                ❤️ 11 support
+                            </span>
+
+                            <button class="vote-btn" onclick="supportIssue(6)">
+
+                                Support
+
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <article class="issue-card">
+
+                        <div class="issue-top">
+
+                            <span class="issue-category">
+                                Waste
+                            </span>
+
+                            <span class="status status-progress">
+                                In Progress
+                            </span>
+
+                        </div>
+
+
+                        <h3>
+                            Roadside Waste
+                        </h3>
+
+
+                        <p class="issue-description">
+                            Waste has been left beside the road for several days and requires collection.
+                        </p>
+
+
+                        <div class="issue-location">
+                            📍 Patan
+                        </div>
+
+
+                        <div class="issue-footer">
+
+                            <span>
+                                ❤️ 14 support
+                            </span>
+
+                            <button class="vote-btn" onclick="supportIssue(5)">
+
+                                Support
+
+                            </button>
+
+                        </div>
+
+                    </article>
+
+
+
+                    <article class="issue-card">
+
+                        <div class="issue-top">
+
+                            <span class="issue-category">
+                                Water
+                            </span>
+
+                            <span class="status status-open">
+                                Open
+                            </span>
+
+                        </div>
+
+
+                        <h3>
+                            Water Supply Issue
+                        </h3>
+
+
+                        <p class="issue-description">
+                            Residents in this area have reported inconsistent water supply during the morning hours.
+                        </p>
+
+
+                        <div class="issue-location">
+                            📍 Kirtipur
+                        </div>
+
+
+                        <div class="issue-footer">
+
+                            <span>
+                                ❤️ 9 support
+                            </span>
+
+                            <button class="vote-btn" onclick="supportIssue(4)">
+
+                                Support
+
+                            </button>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+
+            <!-- HOW IT WORKS -->
+
+            <div class="light-section">
+
+                <div class="container section">
+
+                    <div class="center-heading">
+
+                        <span class="eyebrow">
+                            SIMPLE PROCESS
+                        </span>
+
+                        <h2>
+                            How Sarathi works
+                        </h2>
+
+                        <p>
+                            From reporting a problem to seeing it resolved.
+                        </p>
+
+                    </div>
+
+
+                    <div class="steps-grid">
+
+                        <div class="step-card">
+
+                            <div class="step-number">
+                                01
+                            </div>
+
+                            <h3>Report</h3>
+
+                            <p>
+                                Tell us what is wrong and where it is.
+                            </p>
+
+                        </div>
+
+
+                        <div class="step-card">
+
+                            <div class="step-number">
+                                02
+                            </div>
+
+                            <h3>Support</h3>
+
+                            <p>
+                                Community members can support important issues.
+                            </p>
+
+                        </div>
+
+
+                        <div class="step-card">
+
+                            <div class="step-number">
+                                03
+                            </div>
+
+                            <h3>Resolve</h3>
+
+                            <p>
+                                Track the issue as it moves towards resolution.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ISSUES ================= -->
+
+        <section id="issues" class="page hidden">
+
+            <div class="container page-header">
+
+                <span class="eyebrow">
+                    COMMUNITY REPORTS
+                </span>
+
+                <h1>Reported Issues</h1>
+
+                <p>
+                    Explore civic problems reported by the community.
+                </p>
+
+            </div>
+
+
+            <div class="container">
+
+                <div class="filters">
+
+                    <input id="searchInput" type="text" placeholder="🔎 Search issues..." oninput="filterIssues()">
+
+
+                    <select id="statusFilter" onchange="filterIssues()">
+
+                        <option value="all">
+                            All Statuses
+                        </option>
+
+                        <option value="Open">
+                            Open
+                        </option>
+
+                        <option value="In Progress">
+                            In Progress
+                        </option>
+
+                        <option value="Resolved">
+                            Resolved
+                        </option>
+
+                    </select>
+
+
+                    <select id="categoryFilter" onchange="filterIssues()">
+
+                        <option value="all">
+                            All Categories
+                        </option>
+
+                        <option value="Roads">
+                            Roads
+                        </option>
+
+                        <option value="Waste">
+                            Waste
+                        </option>
+
+                        <option value="Lighting">
+                            Lighting
+                        </option>
+
+                        <option value="Water">
+                            Water
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div id="allIssues" class="issue-grid">
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= REPORT ================= -->
+
+        <section id="report" class="page hidden">
+
+            <div class="container page-header">
+
+                <span class="eyebrow">
+                    REPORT A PROBLEM
+                </span>
+
+                <h1>Submit a Complaint</h1>
+
+                <p>
+                    Give us enough information so the problem can be understood clearly.
+                </p>
+
+            </div>
+
+
+            <div class="container report-layout">
+
+                <form id="reportForm" class="form-card" onsubmit="submitComplaint(event)">
+
+                    <h2>Complaint Details</h2>
+
+
+                    <label>
+                        Problem Title
+                    </label>
+
+                    <input id="complaintTitle" required="" placeholder="Example: Broken street light">
+
+
+                    <label>
+                        Category
+                    </label>
+
+                    <select id="complaintCategory" required="">
+
+                        <option value="">
+                            Select a category
+                        </option>
+
+                        <option value="Roads & Infrastructure">
+                            🛣️ Roads & Infrastructure
+                        </option>
+
+                        <option value="Waste Management">
+                            🗑️ Waste Management
+                        </option>
+
+                        <option value="Water Supply">
+                            💧 Water Supply
+                        </option>
+
+                        <option value="Electricity">
+                            💡 Electricity & Lighting
+                        </option>
+
+                        <option value="Public Safety">
+                            🚨 Public Safety & Sewage
+                        </option>
+
+                        <option value="Healthcare">
+                            🏥 Healthcare Services
+                        </option>
+
+                        <option value="Traffic & Transport">
+                            🚦 Traffic & Transport
+                        </option>
+
+                        <option value="Government Services">
+                            🏛️ Government Services
+                        </option>
+
+                        <option value="Other">
+                            📌 Other Civic Issue
+                        </option>
+
+                    </select>
+
+
+                    <label>
+                        Location & Coordinates
+                    </label>
+
+                    <div class="location-row">
+
+                        <input id="complaintLocation" required="" placeholder="Pinpoint on map below or type address">
+
+                        <button type="button" class="location-btn" onclick="useCurrentLocationForPicker()">
+
+                            📍 GPS
+
+                        </button>
+
+                    </div>
+
+                    <!-- Interactive Map Picker for precise complaint pin -->
+                    <div class="map-picker-card">
+                        <div class="map-picker-meta">
+                            <span id="pickerStatus">🎯 Tap anywhere on map or drag marker to set exact location</span>
+                            <span id="pickerCoordsBadge" class="coords-badge">27.7172, 85.3240</span>
+                        </div>
+                        <div id="reportMapPicker" class="report-map-picker"></div>
+                        <input type="hidden" id="complaintLat" value="27.7172">
+                        <input type="hidden" id="complaintLng" value="85.3240">
+                    </div>
+
+                    <!-- Nearby Duplicate Warning Alert (Part 8) -->
+                    <div id="nearbyDuplicateAlert" class="nearby-alert-banner hidden">
+                        <div class="nearby-alert-badge">⚠️ NEARBY COMPLAINTS FOUND</div>
+                        <p id="nearbyDuplicateText">Similar issues already reported within 1.5km of this location.</p>
+                        <div id="nearbyDuplicateItems" class="nearby-items-list"></div>
+                        <small class="nearby-hint">You can still submit your complaint, or support existing
+                            reports.</small>
+                    </div>
+
+
+                    <label>
+                        Description
+                    </label>
+
+                    <textarea id="complaintDescription" required="" rows="4"
+                        placeholder="Explain what happened, urgency, safety impacts..."
+                        oninput="handleReportTextDebounce()"></textarea>
+
+
+                    <!-- SmartRoute Live AI Preview (from screenshot: Complaint -> Category -> Priority -> Department) -->
+                    <div id="reportSmartRoutePreview" class="smartroute-preview-widget">
+                        <div class="preview-header">
+                            <span class="sparkle-tag">🤖 SmartRoute™ AI Detection</span>
+                            <span id="previewConfidenceTag" class="confidence-tag">Live Preview</span>
+                        </div>
+                        <div class="pipeline-row">
+                            <div class="pipeline-step">
+                                <small>Detected Category</small>
+                                <strong id="previewCategory">Awaiting input</strong>
+                            </div>
+                            <div class="pipeline-arrow">➔</div>
+                            <div class="pipeline-step">
+                                <small>Calculated Priority</small>
+                                <strong id="previewPriority" class="priority-pill-tag">MEDIUM</strong>
+                            </div>
+                            <div class="pipeline-arrow">➔</div>
+                            <div class="pipeline-step">
+                                <small>Routing Department</small>
+                                <strong id="previewDepartment">Municipal Authority</strong>
+                            </div>
+                        </div>
+                        <p id="previewReason" class="preview-reason-text">Type details above to see AI category
+                            classification and priority assessment.</p>
+                    </div>
+
+
+                    <label>
+                        Photo (Optional)
+                    </label>
+
+                    <input id="complaintPhoto" type="file" accept="image/*" onchange="previewComplaintPhoto(event)">
+
+                    <div id="photoPreview"></div>
+
+
+                    <button type="submit" id="submitComplaintBtn" class="primary-btn full-btn">
+
+                        🚀 Submit Complaint to Sarkar Sathi
+
+                    </button>
+
+                </form>
+
+
+                <div class="info-column">
+
+                    <div class="info-card">
+
+                        <div class="info-icon">
+                            📍
+                        </div>
+
+                        <h3>
+                            Use GPS
+                        </h3>
+
+                        <p>
+                            You can use your device's location to help identify where the problem is.
+                        </p>
+
+                    </div>
+
+
+                    <div class="info-card">
+
+                        <div class="info-icon">
+                            📸
+                        </div>
+
+                        <h3>
+                            Add evidence
+                        </h3>
+
+                        <p>
+                            A photo can make it easier to understand the problem.
+                        </p>
+
+                    </div>
+
+
+                    <div class="info-card">
+
+                        <div class="info-icon">
+                            🔒
+                        </div>
+
+                        <h3>
+                            Your information
+                        </h3>
+
+                        <p>
+                            This prototype stores complaints locally in your browser.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= COMPLAINT MAP ================= -->
+
+        <section id="map" class="page hidden">
+
+            <div class="container page-header">
+
+                <span class="eyebrow">
+                    NEPAL CIVIC GEOSPATIAL INTELLIGENCE
+                </span>
+
+                <h1>Complaint Map &amp; Smart Hotspots</h1>
+
+                <p>
+                    Real-time citizen grievances, AI priority visualization, spatial hotspot clustering, and nearby
+                    administrative dispatch across Nepal.
+                </p>
+
+            </div>
+
+
+            <div class="container">
+
+                <!-- PART 5: IMPACT OVERVIEW STATS -->
+                <div class="impact-overview-grid">
+
+                    <div class="impact-card">
+                        <div class="impact-icon blue">📋</div>
+                        <div class="impact-meta">
+                            <span class="impact-label">Total Complaints</span>
+                            <strong id="mapTotalStat" class="impact-value">0</strong>
+                        </div>
+                    </div>
+
+                    <div class="impact-card critical-card">
+                        <div class="impact-icon red pulse-icon">🚨</div>
+                        <div class="impact-meta">
+                            <span class="impact-label">Critical Priority</span>
+                            <strong id="mapCriticalStat" class="impact-value text-red">0</strong>
+                        </div>
+                    </div>
+
+                    <div class="impact-card">
+                        <div class="impact-icon orange">⚠️</div>
+                        <div class="impact-meta">
+                            <span class="impact-label">High Priority</span>
+                            <strong id="mapHighStat" class="impact-value text-orange">0</strong>
+                        </div>
+                    </div>
+
+                    <div class="impact-card">
+                        <div class="impact-icon green">✓</div>
+                        <div class="impact-meta">
+                            <span class="impact-label">Resolved</span>
+                            <strong id="mapResolvedStat" class="impact-value text-green">0</strong>
+                        </div>
+                    </div>
+
+                    <div class="impact-card hotspot-card">
+                        <div class="impact-icon fire">🔥</div>
+                        <div class="impact-meta">
+                            <span class="impact-label">Active Hotspots</span>
+                            <strong id="mapHotspotsStat" class="impact-value text-fire">0</strong>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- PART 3: SMART MAP FILTERING -->
+                <div class="map-control-bar">
+
+                    <div class="search-box">
+                        <span class="search-icon">🔎</span>
+                        <input id="mapSearchInput" type="text" placeholder="Search by title, location or #ID..."
+                            oninput="handleMapSearch(this.value)">
+                    </div>
+
+                    <div class="filter-group">
+
+                        <select id="mapCategoryFilter" onchange="applyMapFilters()">
+                            <option value="all">📂 All Categories</option>
+                            <option value="Roads & Infrastructure">🛣️ Roads &amp; Infrastructure</option>
+                            <option value="Waste Management">🗑️ Waste Management</option>
+                            <option value="Water Supply">💧 Water Supply</option>
+                            <option value="Electricity">💡 Electricity &amp; Lighting</option>
+                            <option value="Public Safety">🚨 Public Safety</option>
+                            <option value="Healthcare">🏥 Healthcare</option>
+                            <option value="Traffic & Transport">🚦 Traffic &amp; Transport</option>
+                            <option value="Government Services">🏛️ Government Services</option>
+                            <option value="Other">📌 Other</option>
+                        </select>
+
+                        <select id="mapPriorityFilter" onchange="applyMapFilters()">
+                            <option value="all">⚡ All Priorities</option>
+                            <option value="critical">🔴 Critical</option>
+                            <option value="high">🟠 High</option>
+                            <option value="medium">🔵 Medium</option>
+                            <option value="low">🟢 Low</option>
+                        </select>
+
+                        <select id="mapStatusFilter" onchange="applyMapFilters()">
+                            <option value="all">📊 All Statuses</option>
+                            <option value="pending">⏳ Pending</option>
+                            <option value="in_progress">⚙️ In Progress</option>
+                            <option value="resolved">✅ Resolved</option>
+                        </select>
+
+                    </div>
+
+                    <div class="map-actions">
+
+                        <button class="action-btn gps-btn" onclick="locateUserOnMap()" title="Locate my position">
+                            📍 My Area
+                        </button>
+
+                        <button id="hotspotToggleBtn" class="action-btn hotspot-toggle active"
+                            onclick="toggleHotspotsLayer()" title="Toggle hotspot heatmap circles">
+                            🔥 Hotspots: ON
+                        </button>
+
+                        <button class="action-btn refresh-btn" onclick="refreshMapData()" title="Reload from backend">
+                            🔄 Sync
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- QUICK REGION JUMPS -->
+                <div class="quick-jumps">
+                    <span class="quick-label">Focus Region:</span>
+                    <button class="jump-pill active" onclick="jumpToNepalRegion('all', this)">🇳🇵 All Nepal</button>
+                    <button class="jump-pill" onclick="jumpToNepalRegion('kathmandu', this)">Kathmandu</button>
+                    <button class="jump-pill" onclick="jumpToNepalRegion('lalitpur', this)">Lalitpur (Patan)</button>
+                    <button class="jump-pill" onclick="jumpToNepalRegion('bhaktapur', this)">Bhaktapur</button>
+                    <button class="jump-pill" onclick="jumpToNepalRegion('pokhara', this)">Pokhara</button>
+                </div>
+
+
+                <!-- LEAFLET MAP CANVAS CONTAINER -->
+                <div class="map-wrapper">
+                    <div id="mainComplaintMap" class="main-map-canvas"></div>
+
+                    <!-- FLOATING MAP LEGEND -->
+                    <div class="map-floating-legend">
+                        <strong>Severity Legend</strong>
+                        <div class="legend-row"><span class="dot dot-critical"></span> Critical (Urgent / Hazard)</div>
+                        <div class="legend-row"><span class="dot dot-high"></span> High Priority</div>
+                        <div class="legend-row"><span class="dot dot-medium"></span> Medium Priority</div>
+                        <div class="legend-row"><span class="dot dot-low"></span> Low Priority</div>
+                        <div class="legend-row"><span class="dot dot-hotspot"></span> Area Hotspot Zone</div>
+                    </div>
+
+                    <div id="mapLoadingOverlay" class="map-loading-overlay hidden">
+                        <div class="spinner"></div>
+                        <span>Syncing live complaints from PostgreSQL...</span>
+                    </div>
+                </div>
+
+
+                <!-- LOWER TWO-COLUMN DASHBOARD (HOTSPOTS + NEARBY SERVICES + INSIGHTS) -->
+                <div class="map-dashboard-grid">
+
+                    <!-- LEFT: HOTSPOTS & INSIGHTS -->
+                    <div class="dashboard-col">
+
+                        <!-- PART 4: SMART HOTSPOT DETECTION -->
+                        <div class="intel-card">
+                            <div class="intel-header">
+                                <div>
+                                    <h3>🔥 Complaint Hotspots</h3>
+                                    <small>Spatial clustering detects high-density problem zones</small>
+                                </div>
+                                <span id="hotspotsBadgeCount" class="badge-counter">3 Detected</span>
+                            </div>
+
+                            <div id="hotspotsContainer" class="hotspots-list">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- PART 7: SMART INSIGHTS -->
+                        <div class="intel-card">
+                            <div class="intel-header">
+                                <div>
+                                    <h3>💡 Smart Civic Insights</h3>
+                                    <small>Data-driven intelligence derived from live reports</small>
+                                </div>
+                                <span class="ai-pill">AI Generated</span>
+                            </div>
+
+                            <div id="smartInsightsContainer" class="insights-list">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <!-- RIGHT: NEARBY GOVERNMENT SERVICES (PART 6) -->
+                    <div class="dashboard-col">
+
+                        <div class="intel-card services-card">
+                            <div class="intel-header">
+                                <div>
+                                    <h3>🏛️ Nearby Government &amp; Emergency Services</h3>
+                                    <small id="nearbyTargetLabel">Select any marker or map area to view local
+                                        administrative offices</small>
+                                </div>
+                                <button class="mini-text-btn" onclick="resetNearbyServicesView()">Default
+                                    (Valley)</button>
+                            </div>
+
+                            <div id="nearbyServicesList" class="services-list">
+                                <!-- Populated dynamically with real Ward/Police/Hospital facilities and accurate Haversine distance -->
+                            </div>
+
+                            <div class="emergency-quick-bar">
+                                <span>Emergency Lines:</span>
+                                <a href="tel:100" class="call-tag">👮 Police 100</a>
+                                <a href="tel:101" class="call-tag">🚒 Fire 101</a>
+                                <a href="tel:102" class="call-tag">🚑 Ambulance 102</a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= SMARTROUTE AI PIPELINE SHOWCASE ================= -->
+
+        <section id="smartroute" class="page hidden">
+
+            <div class="container page-header">
+
+                <span class="eyebrow">
+                    PERSON 4 — AI ROUTING PIPELINE
+                </span>
+
+                <h1>🤖 SmartRoute™ AI Engine</h1>
+
+                <p>
+                    Autonomous civic grievance triage: Natural Language Processing extracts categories, determines
+                    severity, and assigns the correct Nepal government ministry or ward division.
+                </p>
+
+            </div>
+
+
+            <div class="container">
+
+                <!-- THE 4-STEP PIPELINE (from screenshot) -->
+                <div class="smartroute-hero-card">
+
+                    <h2>Automated Decision Pipeline</h2>
+                    <p>Every citizen grievance flows through an intelligent multi-stage classification pipeline:</p>
+
+                    <div class="flowchart-steps">
+
+                        <div class="flow-step-box">
+                            <div class="step-num">Step 1</div>
+                            <div class="step-icon">📝</div>
+                            <strong>Complaint</strong>
+                            <small>Raw citizen text &amp; location</small>
+                        </div>
+
+                        <div class="flow-arrow">➔</div>
+
+                        <div class="flow-step-box">
+                            <div class="step-num">Step 2</div>
+                            <div class="step-icon">🏷️</div>
+                            <strong>Category</strong>
+                            <small>NLP domain classifier</small>
+                        </div>
+
+                        <div class="flow-arrow">➔</div>
+
+                        <div class="flow-step-box">
+                            <div class="step-num">Step 3</div>
+                            <div class="step-icon">⚡</div>
+                            <strong>Priority</strong>
+                            <small>Severity, safety &amp; duration</small>
+                        </div>
+
+                        <div class="flow-arrow">➔</div>
+
+                        <div class="flow-step-box highlight-step">
+                            <div class="step-num">Step 4</div>
+                            <div class="step-icon">🏛️</div>
+                            <strong>Department</strong>
+                            <small>Accredited government routing</small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- INTERACTIVE LIVE TESTER -->
+                <div class="smartroute-tester-grid">
+
+                    <div class="tester-card">
+
+                        <h3>Test Grievance with AI</h3>
+                        <p>Select a realistic Nepal scenario below or enter your own civic problem:</p>
+
+                        <!-- Sample Presets -->
+                        <div class="presets-row">
+                            <button class="preset-pill" onclick="applySmartRoutePreset(0)">🚨 Raw Sewage
+                                Overflow</button>
+                            <button class="preset-pill" onclick="applySmartRoutePreset(1)">🗑️ Bagmati Waste
+                                Dumping</button>
+                            <button class="preset-pill" onclick="applySmartRoutePreset(2)">🛣️ Dangerous Koteshwor
+                                Pothole</button>
+                            <button class="preset-pill" onclick="applySmartRoutePreset(3)">💧 Dry Taps in Patan
+                                Ward</button>
+                            <button class="preset-pill" onclick="applySmartRoutePreset(4)">⚡ Sparking Transformer
+                                Wire</button>
+                        </div>
+
+                        <div class="tester-form">
+
+                            <label>Complaint Title</label>
+                            <input id="smartRouteInputTitle" placeholder="e.g. Broken water pipe flooding street">
+
+                            <label>Complaint Description</label>
+                            <textarea id="smartRouteInputDesc" rows="4"
+                                placeholder="e.g. The main drinking water pipe burst early morning near Patan Hospital..."></textarea>
+
+                            <label>Location</label>
+                            <input id="smartRouteInputLoc" placeholder="e.g. Lagankhel, Lalitpur">
+
+                            <button class="primary-btn full-btn" onclick="executeSmartRouteAnalysis()">
+                                ⚡ Run SmartRoute AI Analysis
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- LIVE AI RESULT CARD -->
+                    <div class="tester-card result-card">
+
+                        <h3>Live AI Classification Result</h3>
+
+                        <div id="smartRouteResultEmpty" class="empty-state">
+                            <div class="empty-icon">🤖</div>
+                            <p>Select a preset or click "Run SmartRoute AI Analysis" to see real-time Groq AI
+                                classification and department routing.</p>
+                        </div>
+
+                        <div id="smartRouteResultActive" class="result-details hidden">
+
+                            <div class="result-badge-row">
+                                <span id="srResultCategory" class="cat-badge">Water Supply</span>
+                                <span id="srResultPriority" class="prio-badge prio-critical">CRITICAL</span>
+                                <span id="srResultConfidence" class="conf-badge">98% Confidence</span>
+                            </div>
+
+                            <div class="result-box">
+                                <div class="result-field">
+                                    <span>🏛️ Assigned Government Department:</span>
+                                    <strong id="srResultDepartment">Kathmandu Upatyaka Khanepani Limited (KUKL)</strong>
+                                </div>
+
+                                <div class="result-field">
+                                    <span>🎯 Specific Issue Type:</span>
+                                    <strong id="srResultIssueType">Water Pipeline Rupture</strong>
+                                </div>
+
+                                <div class="result-field">
+                                    <span>📋 Executive Summary:</span>
+                                    <p id="srResultSummary">Pipeline rupture near Lagankhel causing clean water wastage
+                                        and street flooding.</p>
+                                </div>
+                            </div>
+
+                            <div class="smart-notice">
+                                <span>💡 AI Model:</span>
+                                <small id="srResultModel">SARATHI AI (Groq gpt-oss / Llama-3-70b via port 5001)</small>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ADMIN PANEL ================= -->
+
+        <section id="admin" class="page hidden">
+
+            <!-- ADMIN LOGIN VIEW -->
+            <div id="adminLoginView">
+
+                <div class="container page-header">
+                    <span class="eyebrow">ADMINISTRATION</span>
+                    <h1>🔐 Admin Panel</h1>
+                    <p>Authorized personnel only. Log in to manage complaints, change statuses, and oversee platform operations.</p>
+                </div>
+
+                <div class="container admin-login-container">
+                    <div class="admin-login-card">
+                        <div class="admin-login-icon">🛡️</div>
+                        <h2>Administrator Login</h2>
+                        <p class="admin-login-subtitle">Enter your credentials to access the management dashboard.</p>
+
+                        <div class="admin-login-form">
+                            <label for="adminUsername">Username</label>
+                            <input id="adminUsername" type="text" placeholder="Enter admin username" autocomplete="username">
+
+                            <label for="adminPassword">Password</label>
+                            <input id="adminPassword" type="password" placeholder="Enter admin password" autocomplete="current-password"
+                                onkeydown="if(event.key==='Enter') adminLogin()">
+
+                            <div id="adminLoginError" class="admin-login-error hidden"></div>
+
+                            <button class="primary-btn full-btn admin-login-btn" onclick="adminLogin()">
+                                🔓 Sign In to Dashboard
+                            </button>
+                        </div>
+
+                        <div class="admin-login-hint">
+                            <span>🔒 Secured Access</span>
+                            <small>Admin credentials are validated against the backend server.</small>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ADMIN DASHBOARD VIEW (hidden until logged in) -->
+            <div id="adminDashboardView" class="hidden">
+
+                <div class="container page-header">
+                    <span class="eyebrow">DASHBOARD</span>
+                    <h1>🏛️ Admin Control Center</h1>
+                    <p>Manage all citizen complaints, update statuses, reassign priorities, and monitor system health.</p>
+                </div>
+
+                <div class="container">
+
+                    <!-- Admin Toolbar -->
+                    <div class="admin-toolbar">
+                        <div class="admin-user-badge">
+                            <span class="admin-avatar">👤</span>
+                            <div>
+                                <strong id="adminUserLabel">admin</strong>
+                                <small>Administrator</small>
+                            </div>
+                        </div>
+
+                        <div class="admin-toolbar-actions">
+                            <button class="action-btn refresh-btn" onclick="adminRefreshComplaints()">
+                                🔄 Refresh Data
+                            </button>
+                            <button class="action-btn" onclick="adminLogout()" style="background:var(--red);color:#fff;">
+                                🚪 Logout
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Admin Stats Row -->
+                    <div class="admin-stats-row">
+                        <div class="admin-stat-card">
+                            <div class="admin-stat-icon blue">📋</div>
+                            <div>
+                                <strong id="adminStatTotal">0</strong>
+                                <small>Total Complaints</small>
+                            </div>
+                        </div>
+                        <div class="admin-stat-card">
+                            <div class="admin-stat-icon orange">⏳</div>
+                            <div>
+                                <strong id="adminStatPending">0</strong>
+                                <small>Pending</small>
+                            </div>
+                        </div>
+                        <div class="admin-stat-card">
+                            <div class="admin-stat-icon yellow">⚙️</div>
+                            <div>
+                                <strong id="adminStatProgress">0</strong>
+                                <small>In Progress</small>
+                            </div>
+                        </div>
+                        <div class="admin-stat-card">
+                            <div class="admin-stat-icon green">✅</div>
+                            <div>
+                                <strong id="adminStatResolved">0</strong>
+                                <small>Resolved</small>
+                            </div>
+                        </div>
+                        <div class="admin-stat-card">
+                            <div class="admin-stat-icon red">🚨</div>
+                            <div>
+                                <strong id="adminStatCritical">0</strong>
+                                <small>Critical</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Complaint Management Table -->
+                    <div class="admin-table-card">
+                        <div class="admin-table-header">
+                            <h3>📋 All Complaints</h3>
+                            <div class="admin-table-filter">
+                                <input id="adminSearchInput" type="text" placeholder="🔎 Search complaints..."
+                                    oninput="adminFilterTable()">
+                                <select id="adminStatusFilter" onchange="adminFilterTable()">
+                                    <option value="all">All Statuses</option>
+                                    <option value="pending">⏳ Pending</option>
+                                    <option value="in_progress">⚙️ In Progress</option>
+                                    <option value="resolved">✅ Resolved</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="admin-table-wrapper">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th>Location</th>
+                                        <th>Priority</th>
+                                        <th>Status</th>
+                                        <th>Department</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminTableBody">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div id="adminTableEmpty" class="admin-table-empty hidden">
+                            <p>No complaints match your current filters.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= CONTACT ================= -->
+
+        <section id="contact" class="page hidden">
+
+            <div class="container page-header">
+
+                <span class="eyebrow">
+                    GET IN TOUCH
+                </span>
+
+                <h1>Contact Sarathi</h1>
+
+                <p>
+                    Have a question or need help using the platform?
+                </p>
+
+            </div>
+
+
+            <div class="container contact-grid">
+
+                <div class="contact-card">
+
+                    <div class="contact-icon">
+                        📧
+                    </div>
+
+                    <h3>Email</h3>
 
                     <p>
-                        Tell us what is wrong and where it is.
+                        support@sarathi.example
                     </p>
 
                 </div>
 
 
-                <div class="step-card">
+                <div class="contact-card">
 
-                    <div class="step-number">
-                        02
+                    <div class="contact-icon">
+                        ☎️
                     </div>
 
                     <h3>Support</h3>
 
                     <p>
-                        Community members can support important issues.
+                        Contact information can be added when the platform has an official support team.
                     </p>
 
                 </div>
 
 
-                <div class="step-card">
+                <div class="contact-card">
 
-                    <div class="step-number">
-                        03
+                    <div class="contact-icon">
+                        🇳🇵
                     </div>
 
-                    <h3>Resolve</h3>
+                    <h3>Nepal</h3>
 
                     <p>
-                        Track the issue as it moves towards resolution.
+                        A civic platform designed for communities across Nepal.
                     </p>
 
                 </div>
 
             </div>
 
-        </div>
+        </section>
 
-    </div>
-
-</section>
+    </main>
 
 
-<!-- ================= ISSUES ================= -->
+    <!-- ================= EMERGENCY ================= -->
 
-<section id="issues" class="page hidden">
+    <button id="emergencyButton" class="emergency-button" onclick="toggleEmergency()">
 
-    <div class="container page-header">
+        🚨 Emergency
 
-        <span class="eyebrow">
-            COMMUNITY REPORTS
-        </span>
-
-        <h1>Reported Issues</h1>
-
-        <p>
-            Explore civic problems reported by the community.
-        </p>
-
-    </div>
+    </button>
 
 
-    <div class="container">
+    <div id="emergencyPanel" class="emergency-panel hidden">
 
-        <div class="filters">
+        <div class="emergency-title">
 
-            <input id="searchInput" type="text" placeholder="🔎 Search issues..." oninput="filterIssues()">
+            <div>
+                <strong>Emergency Help</strong>
+                <small>Use only when necessary</small>
+            </div>
 
-
-            <select id="statusFilter" onchange="filterIssues()">
-
-                <option value="all">
-                    All Statuses
-                </option>
-
-                <option value="Open">
-                    Open
-                </option>
-
-                <option value="In Progress">
-                    In Progress
-                </option>
-
-                <option value="Resolved">
-                    Resolved
-                </option>
-
-            </select>
-
-
-            <select id="categoryFilter" onchange="filterIssues()">
-
-                <option value="all">
-                    All Categories
-                </option>
-
-                <option value="Roads">
-                    Roads
-                </option>
-
-                <option value="Waste">
-                    Waste
-                </option>
-
-                <option value="Lighting">
-                    Lighting
-                </option>
-
-                <option value="Water">
-                    Water
-                </option>
-
-                <option value="Other">
-                    Other
-                </option>
-
-            </select>
+            <button onclick="toggleEmergency()">
+                ×
+            </button>
 
         </div>
 
 
-        <div id="allIssues" class="issue-grid">
+        <a href="tel:100" class="emergency-item">
+
+            <span>👮</span>
+
+            <div>
+                <strong>Police</strong>
+                <small>Police Control — 100</small>
+            </div>
+
+            <b>☎</b>
+
+        </a>
+
+
+        <div class="emergency-warning">
+
+            For immediate danger, contact the appropriate emergency service directly.
+
         </div>
 
     </div>
 
-</section>
+
+    <!-- ================= AI ================= -->
+
+    <button class="ai-button" onclick="toggleAI()">
+
+        🤖 Sarathi AI
+
+    </button>
 
 
-<!-- ================= REPORT ================= -->
+    <div id="aiPanel" class="ai-panel hidden">
 
-<section id="report" class="page hidden">
+        <div class="ai-header">
 
-    <div class="container page-header">
+            <div>
+                <strong>🤖 Sarathi AI</strong>
+                <small>Civic assistant</small>
+            </div>
 
-        <span class="eyebrow">
-            REPORT A PROBLEM
-        </span>
+            <button onclick="toggleAI()">
+                ×
+            </button>
 
-        <h1>Submit a Complaint</h1>
+        </div>
 
-        <p>
-            Give us enough information so the problem can be understood clearly.
-        </p>
+
+        <div id="aiMessages" class="ai-messages">
+
+            <div class="ai-message bot">
+
+                Namaste! 👋<br><br>
+
+                I'm Sarathi AI. I can help you understand how to report a civic problem.
+
+            </div>
+
+        </div>
+
+
+        <div class="ai-suggestions">
+
+            <button onclick="askAI(&#39;How do I report a problem?&#39;)">
+                How do I report?
+            </button>
+
+            <button onclick="askAI(&#39;Which category is garbage?&#39;)">
+                Choose category
+            </button>
+
+        </div>
+
+
+        <div class="ai-input">
+
+            <input id="aiInput" placeholder="Ask Sarathi..."
+                onkeydown="if(event.key===&#39;Enter&#39;) sendAIMessage()">
+
+            <button onclick="sendAIMessage()">
+                ➤
+            </button>
+
+        </div>
 
     </div>
 
 
-    <div class="container report-layout">
+    <!-- ================= LOGIN ================= -->
 
-        <form id="reportForm" class="form-card" onsubmit="submitComplaint(event)">
+    <div id="loginModal" class="modal hidden">
 
-            <h2>Complaint Details</h2>
+        <div class="modal-box">
 
+            <button class="modal-close" onclick="closeLogin()">
 
-            <label>
-                Problem Title
-            </label>
-
-            <input id="complaintTitle" required="" placeholder="Example: Broken street light">
-
-
-            <label>
-                Category
-            </label>
-
-            <select id="complaintCategory" required="">
-
-                <option value="">
-                    Select a category
-                </option>
-
-                <option value="Roads & Infrastructure">
-                    🛣️ Roads & Infrastructure
-                </option>
-
-                <option value="Waste Management">
-                    🗑️ Waste Management
-                </option>
-
-                <option value="Water Supply">
-                    💧 Water Supply
-                </option>
-
-                <option value="Electricity">
-                    💡 Electricity & Lighting
-                </option>
-
-                <option value="Public Safety">
-                    🚨 Public Safety & Sewage
-                </option>
-
-                <option value="Healthcare">
-                    🏥 Healthcare Services
-                </option>
-
-                <option value="Traffic & Transport">
-                    🚦 Traffic & Transport
-                </option>
-
-                <option value="Government Services">
-                    🏛️ Government Services
-                </option>
-
-                <option value="Other">
-                    📌 Other Civic Issue
-                </option>
-
-            </select>
-
-
-            <label>
-                Location & Coordinates
-            </label>
-
-            <div class="location-row">
-
-                <input id="complaintLocation" required="" placeholder="Pinpoint on map below or type address">
-
-                <button type="button" class="location-btn" onclick="useCurrentLocationForPicker()">
-
-                    📍 GPS
-
-                </button>
-
-            </div>
-
-            <!-- Interactive Map Picker for precise complaint pin -->
-            <div class="map-picker-card">
-                <div class="map-picker-meta">
-                    <span id="pickerStatus">🎯 Tap anywhere on map or drag marker to set exact location</span>
-                    <span id="pickerCoordsBadge" class="coords-badge">27.7172, 85.3240</span>
-                </div>
-                <div id="reportMapPicker" class="report-map-picker"></div>
-                <input type="hidden" id="complaintLat" value="27.7172">
-                <input type="hidden" id="complaintLng" value="85.3240">
-            </div>
-
-            <!-- Nearby Duplicate Warning Alert (Part 8) -->
-            <div id="nearbyDuplicateAlert" class="nearby-alert-banner hidden">
-                <div class="nearby-alert-badge">⚠️ NEARBY COMPLAINTS FOUND</div>
-                <p id="nearbyDuplicateText">Similar issues already reported within 1.5km of this location.</p>
-                <div id="nearbyDuplicateItems" class="nearby-items-list"></div>
-                <small class="nearby-hint">You can still submit your complaint, or support existing reports.</small>
-            </div>
-
-
-            <label>
-                Description
-            </label>
-
-            <textarea id="complaintDescription" required="" rows="4" placeholder="Explain what happened, urgency, safety impacts..." oninput="handleReportTextDebounce()"></textarea>
-
-
-            <!-- SmartRoute Live AI Preview (from screenshot: Complaint -> Category -> Priority -> Department) -->
-            <div id="reportSmartRoutePreview" class="smartroute-preview-widget">
-                <div class="preview-header">
-                    <span class="sparkle-tag">🤖 SmartRoute™ AI Detection</span>
-                    <span id="previewConfidenceTag" class="confidence-tag">Live Preview</span>
-                </div>
-                <div class="pipeline-row">
-                    <div class="pipeline-step">
-                        <small>Detected Category</small>
-                        <strong id="previewCategory">Awaiting input</strong>
-                    </div>
-                    <div class="pipeline-arrow">➔</div>
-                    <div class="pipeline-step">
-                        <small>Calculated Priority</small>
-                        <strong id="previewPriority" class="priority-pill-tag">MEDIUM</strong>
-                    </div>
-                    <div class="pipeline-arrow">➔</div>
-                    <div class="pipeline-step">
-                        <small>Routing Department</small>
-                        <strong id="previewDepartment">Municipal Authority</strong>
-                    </div>
-                </div>
-                <p id="previewReason" class="preview-reason-text">Type details above to see AI category classification and priority assessment.</p>
-            </div>
-
-
-            <label>
-                Photo (Optional)
-            </label>
-
-            <input id="complaintPhoto" type="file" accept="image/*" onchange="previewComplaintPhoto(event)">
-
-            <div id="photoPreview"></div>
-
-
-            <button type="submit" id="submitComplaintBtn" class="primary-btn full-btn">
-
-                🚀 Submit Complaint to Sarkar Sathi
+                ×
 
             </button>
 
-        </form>
 
-
-        <div class="info-column">
-
-            <div class="info-card">
-
-                <div class="info-icon">
-                    📍
-                </div>
-
-                <h3>
-                    Use GPS
-                </h3>
-
-                <p>
-                    You can use your device's location to help identify where the problem is.
-                </p>
-
+            <div class="login-logo">
+                👤
             </div>
-
-
-            <div class="info-card">
-
-                <div class="info-icon">
-                    📸
-                </div>
-
-                <h3>
-                    Add evidence
-                </h3>
-
-                <p>
-                    A photo can make it easier to understand the problem.
-                </p>
-
-            </div>
-
-
-            <div class="info-card">
-
-                <div class="info-icon">
-                    🔒
-                </div>
-
-                <h3>
-                    Your information
-                </h3>
-
-                <p>
-                    This prototype stores complaints locally in your browser.
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= COMPLAINT MAP ================= -->
-
-<section id="map" class="page hidden">
-
-    <div class="container page-header">
-
-        <span class="eyebrow">
-            NEPAL CIVIC GEOSPATIAL INTELLIGENCE
-        </span>
-
-        <h1>Complaint Map &amp; Smart Hotspots</h1>
-
-        <p>
-            Real-time citizen grievances, AI priority visualization, spatial hotspot clustering, and nearby administrative dispatch across Nepal.
-        </p>
-
-    </div>
-
-
-    <div class="container">
-
-        <!-- PART 5: IMPACT OVERVIEW STATS -->
-        <div class="impact-overview-grid">
-
-            <div class="impact-card">
-                <div class="impact-icon blue">📋</div>
-                <div class="impact-meta">
-                    <span class="impact-label">Total Complaints</span>
-                    <strong id="mapTotalStat" class="impact-value">0</strong>
-                </div>
-            </div>
-
-            <div class="impact-card critical-card">
-                <div class="impact-icon red pulse-icon">🚨</div>
-                <div class="impact-meta">
-                    <span class="impact-label">Critical Priority</span>
-                    <strong id="mapCriticalStat" class="impact-value text-red">0</strong>
-                </div>
-            </div>
-
-            <div class="impact-card">
-                <div class="impact-icon orange">⚠️</div>
-                <div class="impact-meta">
-                    <span class="impact-label">High Priority</span>
-                    <strong id="mapHighStat" class="impact-value text-orange">0</strong>
-                </div>
-            </div>
-
-            <div class="impact-card">
-                <div class="impact-icon green">✓</div>
-                <div class="impact-meta">
-                    <span class="impact-label">Resolved</span>
-                    <strong id="mapResolvedStat" class="impact-value text-green">0</strong>
-                </div>
-            </div>
-
-            <div class="impact-card hotspot-card">
-                <div class="impact-icon fire">🔥</div>
-                <div class="impact-meta">
-                    <span class="impact-label">Active Hotspots</span>
-                    <strong id="mapHotspotsStat" class="impact-value text-fire">0</strong>
-                </div>
-            </div>
-
-        </div>
-
-
-        <!-- PART 3: SMART MAP FILTERING -->
-        <div class="map-control-bar">
-
-            <div class="search-box">
-                <span class="search-icon">🔎</span>
-                <input id="mapSearchInput" type="text" placeholder="Search by title, location or #ID..." oninput="handleMapSearch(this.value)">
-            </div>
-
-            <div class="filter-group">
-
-                <select id="mapCategoryFilter" onchange="applyMapFilters()">
-                    <option value="all">📂 All Categories</option>
-                    <option value="Roads & Infrastructure">🛣️ Roads &amp; Infrastructure</option>
-                    <option value="Waste Management">🗑️ Waste Management</option>
-                    <option value="Water Supply">💧 Water Supply</option>
-                    <option value="Electricity">💡 Electricity &amp; Lighting</option>
-                    <option value="Public Safety">🚨 Public Safety</option>
-                    <option value="Healthcare">🏥 Healthcare</option>
-                    <option value="Traffic & Transport">🚦 Traffic &amp; Transport</option>
-                    <option value="Government Services">🏛️ Government Services</option>
-                    <option value="Other">📌 Other</option>
-                </select>
-
-                <select id="mapPriorityFilter" onchange="applyMapFilters()">
-                    <option value="all">⚡ All Priorities</option>
-                    <option value="critical">🔴 Critical</option>
-                    <option value="high">🟠 High</option>
-                    <option value="medium">🔵 Medium</option>
-                    <option value="low">🟢 Low</option>
-                </select>
-
-                <select id="mapStatusFilter" onchange="applyMapFilters()">
-                    <option value="all">📊 All Statuses</option>
-                    <option value="pending">⏳ Pending</option>
-                    <option value="in_progress">⚙️ In Progress</option>
-                    <option value="resolved">✅ Resolved</option>
-                </select>
-
-            </div>
-
-            <div class="map-actions">
-
-                <button class="action-btn gps-btn" onclick="locateUserOnMap()" title="Locate my position">
-                    📍 My Area
-                </button>
-
-                <button id="hotspotToggleBtn" class="action-btn hotspot-toggle active" onclick="toggleHotspotsLayer()" title="Toggle hotspot heatmap circles">
-                    🔥 Hotspots: ON
-                </button>
-
-                <button class="action-btn refresh-btn" onclick="refreshMapData()" title="Reload from backend">
-                    🔄 Sync
-                </button>
-
-            </div>
-
-        </div>
-
-        <!-- QUICK REGION JUMPS -->
-        <div class="quick-jumps">
-            <span class="quick-label">Focus Region:</span>
-            <button class="jump-pill active" onclick="jumpToNepalRegion('all', this)">🇳🇵 All Nepal</button>
-            <button class="jump-pill" onclick="jumpToNepalRegion('kathmandu', this)">Kathmandu</button>
-            <button class="jump-pill" onclick="jumpToNepalRegion('lalitpur', this)">Lalitpur (Patan)</button>
-            <button class="jump-pill" onclick="jumpToNepalRegion('bhaktapur', this)">Bhaktapur</button>
-            <button class="jump-pill" onclick="jumpToNepalRegion('pokhara', this)">Pokhara</button>
-        </div>
-
-
-        <!-- LEAFLET MAP CANVAS CONTAINER -->
-        <div class="map-wrapper">
-            <div id="mainComplaintMap" class="main-map-canvas"></div>
-
-            <!-- FLOATING MAP LEGEND -->
-            <div class="map-floating-legend">
-                <strong>Severity Legend</strong>
-                <div class="legend-row"><span class="dot dot-critical"></span> Critical (Urgent / Hazard)</div>
-                <div class="legend-row"><span class="dot dot-high"></span> High Priority</div>
-                <div class="legend-row"><span class="dot dot-medium"></span> Medium Priority</div>
-                <div class="legend-row"><span class="dot dot-low"></span> Low Priority</div>
-                <div class="legend-row"><span class="dot dot-hotspot"></span> Area Hotspot Zone</div>
-            </div>
-
-            <div id="mapLoadingOverlay" class="map-loading-overlay hidden">
-                <div class="spinner"></div>
-                <span>Syncing live complaints from PostgreSQL...</span>
-            </div>
-        </div>
-
-
-        <!-- LOWER TWO-COLUMN DASHBOARD (HOTSPOTS + NEARBY SERVICES + INSIGHTS) -->
-        <div class="map-dashboard-grid">
-
-            <!-- LEFT: HOTSPOTS & INSIGHTS -->
-            <div class="dashboard-col">
-
-                <!-- PART 4: SMART HOTSPOT DETECTION -->
-                <div class="intel-card">
-                    <div class="intel-header">
-                        <div>
-                            <h3>🔥 Complaint Hotspots</h3>
-                            <small>Spatial clustering detects high-density problem zones</small>
-                        </div>
-                        <span id="hotspotsBadgeCount" class="badge-counter">3 Detected</span>
-                    </div>
-
-                    <div id="hotspotsContainer" class="hotspots-list">
-                        <!-- Populated dynamically -->
-                    </div>
-                </div>
-
-                <!-- PART 7: SMART INSIGHTS -->
-                <div class="intel-card">
-                    <div class="intel-header">
-                        <div>
-                            <h3>💡 Smart Civic Insights</h3>
-                            <small>Data-driven intelligence derived from live reports</small>
-                        </div>
-                        <span class="ai-pill">AI Generated</span>
-                    </div>
-
-                    <div id="smartInsightsContainer" class="insights-list">
-                        <!-- Populated dynamically -->
-                    </div>
-                </div>
-
-            </div>
-
-
-            <!-- RIGHT: NEARBY GOVERNMENT SERVICES (PART 6) -->
-            <div class="dashboard-col">
-
-                <div class="intel-card services-card">
-                    <div class="intel-header">
-                        <div>
-                            <h3>🏛️ Nearby Government &amp; Emergency Services</h3>
-                            <small id="nearbyTargetLabel">Select any marker or map area to view local administrative offices</small>
-                        </div>
-                        <button class="mini-text-btn" onclick="resetNearbyServicesView()">Default (Valley)</button>
-                    </div>
-
-                    <div id="nearbyServicesList" class="services-list">
-                        <!-- Populated dynamically with real Ward/Police/Hospital facilities and accurate Haversine distance -->
-                    </div>
-
-                    <div class="emergency-quick-bar">
-                        <span>Emergency Lines:</span>
-                        <a href="tel:100" class="call-tag">👮 Police 100</a>
-                        <a href="tel:101" class="call-tag">🚒 Fire 101</a>
-                        <a href="tel:102" class="call-tag">🚑 Ambulance 102</a>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= SMARTROUTE AI PIPELINE SHOWCASE ================= -->
-
-<section id="smartroute" class="page hidden">
-
-    <div class="container page-header">
-
-        <span class="eyebrow">
-            PERSON 4 — AI ROUTING PIPELINE
-        </span>
-
-        <h1>🤖 SmartRoute™ AI Engine</h1>
-
-        <p>
-            Autonomous civic grievance triage: Natural Language Processing extracts categories, determines severity, and assigns the correct Nepal government ministry or ward division.
-        </p>
-
-    </div>
-
-
-    <div class="container">
-
-        <!-- THE 4-STEP PIPELINE (from screenshot) -->
-        <div class="smartroute-hero-card">
-
-            <h2>Automated Decision Pipeline</h2>
-            <p>Every citizen grievance flows through an intelligent multi-stage classification pipeline:</p>
-
-            <div class="flowchart-steps">
-
-                <div class="flow-step-box">
-                    <div class="step-num">Step 1</div>
-                    <div class="step-icon">📝</div>
-                    <strong>Complaint</strong>
-                    <small>Raw citizen text &amp; location</small>
-                </div>
-
-                <div class="flow-arrow">➔</div>
-
-                <div class="flow-step-box">
-                    <div class="step-num">Step 2</div>
-                    <div class="step-icon">🏷️</div>
-                    <strong>Category</strong>
-                    <small>NLP domain classifier</small>
-                </div>
-
-                <div class="flow-arrow">➔</div>
-
-                <div class="flow-step-box">
-                    <div class="step-num">Step 3</div>
-                    <div class="step-icon">⚡</div>
-                    <strong>Priority</strong>
-                    <small>Severity, safety &amp; duration</small>
-                </div>
-
-                <div class="flow-arrow">➔</div>
-
-                <div class="flow-step-box highlight-step">
-                    <div class="step-num">Step 4</div>
-                    <div class="step-icon">🏛️</div>
-                    <strong>Department</strong>
-                    <small>Accredited government routing</small>
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- INTERACTIVE LIVE TESTER -->
-        <div class="smartroute-tester-grid">
-
-            <div class="tester-card">
-
-                <h3>Test Grievance with AI</h3>
-                <p>Select a realistic Nepal scenario below or enter your own civic problem:</p>
-
-                <!-- Sample Presets -->
-                <div class="presets-row">
-                    <button class="preset-pill" onclick="applySmartRoutePreset(0)">🚨 Raw Sewage Overflow</button>
-                    <button class="preset-pill" onclick="applySmartRoutePreset(1)">🗑️ Bagmati Waste Dumping</button>
-                    <button class="preset-pill" onclick="applySmartRoutePreset(2)">🛣️ Dangerous Koteshwor Pothole</button>
-                    <button class="preset-pill" onclick="applySmartRoutePreset(3)">💧 Dry Taps in Patan Ward</button>
-                    <button class="preset-pill" onclick="applySmartRoutePreset(4)">⚡ Sparking Transformer Wire</button>
-                </div>
-
-                <div class="tester-form">
-
-                    <label>Complaint Title</label>
-                    <input id="smartRouteInputTitle" placeholder="e.g. Broken water pipe flooding street">
-
-                    <label>Complaint Description</label>
-                    <textarea id="smartRouteInputDesc" rows="4" placeholder="e.g. The main drinking water pipe burst early morning near Patan Hospital..."></textarea>
-
-                    <label>Location</label>
-                    <input id="smartRouteInputLoc" placeholder="e.g. Lagankhel, Lalitpur">
-
-                    <button class="primary-btn full-btn" onclick="executeSmartRouteAnalysis()">
-                        ⚡ Run SmartRoute AI Analysis
-                    </button>
-
-                </div>
-
-            </div>
-
-
-            <!-- LIVE AI RESULT CARD -->
-            <div class="tester-card result-card">
-
-                <h3>Live AI Classification Result</h3>
-
-                <div id="smartRouteResultEmpty" class="empty-state">
-                    <div class="empty-icon">🤖</div>
-                    <p>Select a preset or click "Run SmartRoute AI Analysis" to see real-time Groq AI classification and department routing.</p>
-                </div>
-
-                <div id="smartRouteResultActive" class="result-details hidden">
-
-                    <div class="result-badge-row">
-                        <span id="srResultCategory" class="cat-badge">Water Supply</span>
-                        <span id="srResultPriority" class="prio-badge prio-critical">CRITICAL</span>
-                        <span id="srResultConfidence" class="conf-badge">98% Confidence</span>
-                    </div>
-
-                    <div class="result-box">
-                        <div class="result-field">
-                            <span>🏛️ Assigned Government Department:</span>
-                            <strong id="srResultDepartment">Kathmandu Upatyaka Khanepani Limited (KUKL)</strong>
-                        </div>
-
-                        <div class="result-field">
-                            <span>🎯 Specific Issue Type:</span>
-                            <strong id="srResultIssueType">Water Pipeline Rupture</strong>
-                        </div>
-
-                        <div class="result-field">
-                            <span>📋 Executive Summary:</span>
-                            <p id="srResultSummary">Pipeline rupture near Lagankhel causing clean water wastage and street flooding.</p>
-                        </div>
-                    </div>
-
-                    <div class="smart-notice">
-                        <span>💡 AI Model:</span>
-                        <small id="srResultModel">SARATHI AI (Groq gpt-oss / Llama-3-70b via port 5001)</small>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= CONTACT ================= -->
-
-<section id="contact" class="page hidden">
-
-    <div class="container page-header">
-
-        <span class="eyebrow">
-            GET IN TOUCH
-        </span>
-
-        <h1>Contact Sarathi</h1>
-
-        <p>
-            Have a question or need help using the platform?
-        </p>
-
-    </div>
-
-
-    <div class="container contact-grid">
-
-        <div class="contact-card">
-
-            <div class="contact-icon">
-                📧
-            </div>
-
-            <h3>Email</h3>
-
-            <p>
-                support@sarathi.example
-            </p>
-
-        </div>
-
-
-        <div class="contact-card">
-
-            <div class="contact-icon">
-                ☎️
-            </div>
-
-            <h3>Support</h3>
-
-            <p>
-                Contact information can be added when the platform has an official support team.
-            </p>
-
-        </div>
-
-
-        <div class="contact-card">
-
-            <div class="contact-icon">
-                🇳🇵
-            </div>
-
-            <h3>Nepal</h3>
-
-            <p>
-                A civic platform designed for communities across Nepal.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-</main>
-
-
-<!-- ================= EMERGENCY ================= -->
-
-<button id="emergencyButton" class="emergency-button" onclick="toggleEmergency()">
-
-    🚨 Emergency
-
-</button>
-
-
-<div id="emergencyPanel" class="emergency-panel hidden">
-
-    <div class="emergency-title">
-
-        <div>
-            <strong>Emergency Help</strong>
-            <small>Use only when necessary</small>
-        </div>
-
-        <button onclick="toggleEmergency()">
-            ×
-        </button>
-
-    </div>
-
-
-    <a href="tel:100" class="emergency-item">
-
-        <span>👮</span>
-
-        <div>
-            <strong>Police</strong>
-            <small>Police Control — 100</small>
-        </div>
-
-        <b>☎</b>
-
-    </a>
-
-
-    <div class="emergency-warning">
-
-        For immediate danger, contact the appropriate emergency service directly.
-
-    </div>
-
-</div>
-
-
-<!-- ================= AI ================= -->
-
-<button class="ai-button" onclick="toggleAI()">
-
-    🤖 Sarathi AI
-
-</button>
-
-
-<div id="aiPanel" class="ai-panel hidden">
-
-    <div class="ai-header">
-
-        <div>
-            <strong>🤖 Sarathi AI</strong>
-            <small>Civic assistant</small>
-        </div>
-
-        <button onclick="toggleAI()">
-            ×
-        </button>
-
-    </div>
-
-
-    <div id="aiMessages" class="ai-messages">
-
-        <div class="ai-message bot">
-
-            Namaste! 👋<br><br>
-
-            I'm Sarathi AI. I can help you understand how to report a civic problem.
-
-        </div>
-
-    </div>
-
-
-    <div class="ai-suggestions">
-
-        <button onclick="askAI(&#39;How do I report a problem?&#39;)">
-            How do I report?
-        </button>
-
-        <button onclick="askAI(&#39;Which category is garbage?&#39;)">
-            Choose category
-        </button>
-
-    </div>
-
-
-    <div class="ai-input">
-
-        <input id="aiInput" placeholder="Ask Sarathi..." onkeydown="if(event.key===&#39;Enter&#39;) sendAIMessage()">
-
-        <button onclick="sendAIMessage()">
-            ➤
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- ================= LOGIN ================= -->
-
-<div id="loginModal" class="modal hidden">
-
-    <div class="modal-box">
-
-        <button class="modal-close" onclick="closeLogin()">
-
-            ×
-
-        </button>
-
-
-        <div class="login-logo">
-            👤
-        </div>
-
-        <h2>
-            Sarathi Account
-        </h2>
-
-        <p>
-            Sign in to manage your reports.
-        </p>
-
-
-        <input id="loginName" placeholder="Your name">
-
-
-        <input id="loginEmail" type="email" placeholder="Email address">
-
-
-        <button class="primary-btn full-btn" onclick="loginUser()">
-
-            Continue
-
-        </button>
-
-
-        <div id="loginMessage" class="login-message">
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- ================= TOAST ================= -->
-
-<div id="toast" class="toast">
-
-</div>
-
-
-<!-- ================= FOOTER ================= -->
-
-<footer>
-
-    <div class="container footer-grid">
-
-        <div>
 
             <h2>
-                🇳🇵 Sarathi
+                Sarathi Account
             </h2>
 
             <p>
-                Helping communities report problems and work towards better places.
+                Sign in to manage your reports.
             </p>
 
-        </div>
+
+            <input id="loginName" placeholder="Your name">
 
 
-        <div>
+            <input id="loginEmail" type="email" placeholder="Email address">
 
-            <h3>
-                Platform
-            </h3>
 
-            <button onclick="showPage(&#39;issues&#39;)">
-                Issues
+            <button class="primary-btn full-btn" onclick="loginUser()">
+
+                Continue
+
             </button>
 
-            <button onclick="showPage(&#39;report&#39;)">
-                Report
-            </button>
 
-            <button onclick="showPage(&#39;map&#39;)">
-                Map
-            </button>
-
-        </div>
-
-
-        <div>
-
-            <h3>
-                Help
-            </h3>
-
-            <button onclick="showPage(&#39;contact&#39;)">
-                Contact
-            </button>
-
-            <button onclick="toggleEmergency()">
-                Emergency
-            </button>
+            <div id="loginMessage" class="login-message">
+            </div>
 
         </div>
 
     </div>
 
 
-    <div class="footer-bottom">
+    <!-- ================= TOAST ================= -->
 
-        © 2026 Sarathi — Civic Reporting Prototype
+    <div id="toast" class="toast">
 
     </div>
 
-</footer>
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="container footer-grid">
+
+            <div>
+
+                <h2>
+                    🇳🇵 Sarathi
+                </h2>
+
+                <p>
+                    Helping communities report problems and work towards better places.
+                </p>
+
+            </div>
 
 
-<!-- Leaflet & MarkerCluster JavaScript Libraries -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+            <div>
 
-<!-- Application Core JavaScript -->
-<script src="script.js"></script>
+                <h3>
+                    Platform
+                </h3>
 
-<!-- Code injected by live-server -->
-<script>
-	// <![CDATA[  <-- For SVG support
-	if ('WebSocket' in window) {
-		(function () {
-			function refreshCSS() {
-				var sheets = [].slice.call(document.getElementsByTagName("link"));
-				var head = document.getElementsByTagName("head")[0];
-				for (var i = 0; i < sheets.length; ++i) {
-					var elem = sheets[i];
-					var parent = elem.parentElement || head;
-					parent.removeChild(elem);
-					var rel = elem.rel;
-					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
-						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
-						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
-					}
-					parent.appendChild(elem);
-				}
-			}
-			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
-			var address = protocol + window.location.host + window.location.pathname + '/ws';
-			var socket = new WebSocket(address);
-			socket.onmessage = function (msg) {
-				if (msg.data == 'reload') window.location.reload();
-				else if (msg.data == 'refreshcss') refreshCSS();
-			};
-			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
-				console.log('Live reload enabled.');
-				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
-			}
-		})();
-	}
-	else {
-		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
-	}
-	// ]]>
-</script>
+                <button onclick="showPage(&#39;issues&#39;)">
+                    Issues
+                </button>
 
-</body></html>
+                <button onclick="showPage(&#39;report&#39;)">
+                    Report
+                </button>
+
+                <button onclick="showPage(&#39;map&#39;)">
+                    Map
+                </button>
+
+            </div>
+
+
+            <div>
+
+                <h3>
+                    Help
+                </h3>
+
+                <button onclick="showPage(&#39;contact&#39;)">
+                    Contact
+                </button>
+
+                <button onclick="toggleEmergency()">
+                    Emergency
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            © 2026 Sarathi — Civic Reporting Prototype
+
+        </div>
+
+    </footer>
+
+
+    <!-- Leaflet & MarkerCluster JavaScript Libraries -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+    <!-- Application Core JavaScript -->
+    <script src="script.js"></script>
+
+    <!-- Code injected by live-server -->
+    <script>
+        // <![CDATA[  <-- For SVG support
+        if ('WebSocket' in window) {
+            (function () {
+                function refreshCSS() {
+                    var sheets = [].slice.call(document.getElementsByTagName("link"));
+                    var head = document.getElementsByTagName("head")[0];
+                    for (var i = 0; i < sheets.length; ++i) {
+                        var elem = sheets[i];
+                        var parent = elem.parentElement || head;
+                        parent.removeChild(elem);
+                        var rel = elem.rel;
+                        if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+                            var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+                            elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+                        }
+                        parent.appendChild(elem);
+                    }
+                }
+                var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+                var address = protocol + window.location.host + window.location.pathname + '/ws';
+                var socket = new WebSocket(address);
+                socket.onmessage = function (msg) {
+                    if (msg.data == 'reload') window.location.reload();
+                    else if (msg.data == 'refreshcss') refreshCSS();
+                };
+                if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+                    console.log('Live reload enabled.');
+                    sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+                }
+            })();
+        }
+        else {
+            console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+        }
+        // ]]>
+    </script>
+
+</body>
+
+</html>

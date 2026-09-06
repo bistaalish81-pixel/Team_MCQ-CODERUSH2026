@@ -123,6 +123,10 @@ PORT=5001
    - Submit the complaint. It saves to PostgreSQL, and the user is redirected to the **Complaint Map** where the new marker immediately appears!
 9. **SmartRoute AI Engine Showcase**:
    - Click **"🤖 SmartRoute AI"** in the navbar to test preset scenarios (*Sewage Overflow*, *Waste Dumping*, *Dangerous Pothole*, *Dry Taps*, *Sparking Transformer*) through the interactive 4-step decision pipeline.
+10. **Admin Panel & Operations**:
+   - Click **"🔐 Admin"** in the top navigation.
+   - Enter credentials: Username: `admin` | Password: `admin123`.
+   - Access the Admin Control Center: view all complaints in a table, update statuses (Pending, In Progress, Resolved), reassign priorities, view full AI metadata, and manage complaints.
 
 ## Screenshots / Demo
 
