@@ -1,4 +1,4 @@
-# Sarkar Sathi AI
+# Sarathi
 
 AI-powered citizen-to-government civic complaint and service routing platform for Nepal with interactive geospatial mapping, automated priority assessment, and spatial hotspot detection.
 
@@ -16,7 +16,7 @@ AI-powered citizen-to-government civic complaint and service routing platform fo
 
 ## Project Details
 
-**Project Title:** Sarkar Sathi AI (सरकार साथी)
+**Project Title:** Sarathi (सारथि)
 
 **Category:** [ ] FinTech &nbsp; [ ] EdTech &nbsp; [x] E-Governance &nbsp; [ ] IoT &nbsp; [x] Open Innovation
 
@@ -24,7 +24,7 @@ AI-powered citizen-to-government civic complaint and service routing platform fo
 In Nepal, citizens face significant friction reporting everyday municipal and public infrastructure problems—such as damaged roads, raw sewage floods, accumulated waste, broken water mains, and fallen power lines. Traditional reporting channels and social media complaints lack exact geographic coordinates, get lost in bureaucratic silos, and rarely reach the responsible department, causing prolonged delays, public health hazards, and citizen frustration.
 
 **Solution Overview:**
-Sarkar Sathi AI bridges citizens and government agencies through an intelligent, transparent platform. Citizens report problems with pinpoint GPS or interactive map selection. Using Groq AI (LLMs), the system autonomously categorizes the complaint, calculates urgency/priority, extracts key issue summaries, routes the complaint to the designated government department (DoR, KUKL, NEA, Ward Offices), and warns of nearby duplicate reports. The interactive Nepal map displays real-time complaint markers, spatial hotspot clusters, impact overview statistics, and nearest municipal/emergency services calculated via Haversine distance.
+Sarathi bridges citizens and government agencies through an intelligent, transparent platform. Citizens report problems with pinpoint GPS or interactive map selection. Using Groq AI (LLMs), the system autonomously categorizes the complaint, calculates urgency/priority, extracts key issue summaries, routes the complaint to the designated government department (DoR, KUKL, NEA, Ward Offices), and warns of nearby duplicate reports. The interactive Nepal map displays real-time complaint markers, spatial hotspot clusters, impact overview statistics, and nearest municipal/emergency services calculated via Haversine distance.
 
 ## Technical Stack
 

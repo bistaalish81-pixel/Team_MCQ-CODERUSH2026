@@ -1,6 +1,6 @@
 /* ================================================= */
-/* SARKAR SATHI AI — CORE & SMART MAP JAVASCRIPT    */
-/* Person 4: Interactive Map + Smart Features       */
+/* SARATHI — CORE & SMART MAP JAVASCRIPT             */
+/* Interactive Map + Smart Features                  */
 /* ================================================= */
 
 const API_BASE = "http://localhost:5001";
@@ -700,7 +700,7 @@ function initOrRefreshMainMap() {
         // OpenStreetMap clean tile layer
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             maxZoom: 19,
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Sarkar Sathi AI'
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors | Sarathi'
         }).addTo(mainMap);
 
         // Marker cluster or LayerGroup
@@ -1516,7 +1516,7 @@ async function submitComplaint(event) {
     } finally {
         if (submitBtn) {
             submitBtn.disabled = false;
-            submitBtn.textContent = "🚀 Submit Complaint to Sarkar Sathi";
+            submitBtn.textContent = "🚀 Submit Complaint to Sarathi";
         }
     }
 }
@@ -1842,7 +1842,7 @@ function generateAIResponse(query) {
     if (q.includes("garbage") || q.includes("waste")) {
         return "Waste management issues are routed directly to the Metropolitan Environment Management Division.";
     }
-    return "Namaste! Sarkar Sathi AI connects citizens with government authorities. You can explore reported issues or view live hotspots on the Complaint Map.";
+    return "Namaste! Sarathi connects citizens with government authorities. You can explore reported issues or view live hotspots on the Complaint Map.";
 }
 
 function showLogin() {
